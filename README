@@ -1,0 +1,99 @@
+# 🧠 Akıllı Log Asistanı (AI-Powered Log Analyzer)
+
+Bu proje, sistem yöneticilerinin manuel olarak incelemek zorunda kaldığı büyük boyutlu log dosyalarını AI ile analiz ederek, potansiyel anomalileri otomatik olarak tespit eden bir kurum içi log analiz aracıdır.
+
+> 🎯 MVP Sürüm: Anomali tespiti, log yükleme ve görsel uyarı sistemi içerir.  
+> 🏢 Kurum içi çalışacak şekilde tasarlanmıştır. Tüm bileşenler Docker üzerinde local olarak çalışır.
+
+---
+
+## 🚀 Özellikler
+
+- ✅ CSV / LOG dosyası yükleme
+- ✅ AI destekli anomali tespiti (RandomForest + TF-IDF)
+- ✅ Kritik hata uyarısı
+- ✅ Web arayüzü ile logları inceleme ve filtreleme
+- ✅ Kurum içi dağıtım (offline kullanım)
+
+---
+
+## 📁 Proje Yapısı
+
+log-analyzer/
+├── app/
+│ ├── main.py # FastAPI backend
+│ ├── model.py # ML model yükleme ve tahmin
+│ ├── utils.py # Veri işleme
+├── frontend/
+│ ├── public/ # Statik dosyalar
+│ ├── src/ # React app (shadcn/ui ile)
+├── data/
+│ └── example.csv # Örnek log dosyası
+├── Dockerfile
+├── docker-compose.yml
+├── README.md
+
+yaml
+Kopyala
+Düzenle
+
+---
+
+## 🛠️ Kurulum
+
+### 🐳 Docker ile çalıştırmak için:
+
+> Minimum: Docker + Docker Compose yüklü olmalı  
+> Test edildiği ortam: Ubuntu 22.04 / WSL / Windows 11 + Docker Desktop
+
+```bash
+git clone https://github.com/kullanici/log-analyzer.git
+cd log-analyzer
+
+# Servisleri başlat (backend + frontend)
+docker-compose up --build
+Uygulama: http://localhost:3000
+
+API: http://localhost:8000/docs (FastAPI Swagger arayüzü)
+
+📊 Nasıl Kullanılır?
+Web arayüzüne gidin → localhost:3000
+
+.csv log dosyanızı yükleyin (örnek dosya: /data/example.csv)
+
+“Analizi Başlat” butonuna tıklayın
+
+Sistem, AI modeliyle anomalileri tespit edip kırmızı olarak işaretleyecek
+
+Arama ve filtreleme yaparak detaylara inebilirsiniz
+
+🧪 Test Log Verisi
+LogPai HDFS Dataset
+
+LogPai BGL Dataset (Berkeley)
+
+data/ klasörüne .csv olarak koyabilirsiniz.
+
+🔒 Güvenlik ve Gizlilik
+Bu uygulama sadece kurum içi çalışacak şekilde tasarlanmıştır
+
+Kullanıcı verisi dışarı aktarılmaz
+
+IP, kullanıcı adı gibi PII alanları maskelemeye uygundur
+
+Kullanıcı oturumu gerektirmez (tek kullanıcı için MVP)
+
+🧩 Teknolojiler
+Backend: Python, FastAPI
+
+ML: scikit-learn, pandas, TF-IDF + RandomForest
+
+Frontend: React.js, TailwindCSS, Shadcn/UI
+
+Dağıtım: Docker, Docker Compose
+
+Veritabanı: SQLite (yerel, hafif)
+
+📬 İletişim
+Bu proje, sistem güvenliği ve log analizi süreçlerini modernleştirmek amacıyla geliştirilmiştir.
+Her türlü geri bildirim veya geliştirme öneriniz için bizimle iletişime geçebilirsiniz.
