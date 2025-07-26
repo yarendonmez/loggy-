@@ -1,0 +1,24 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.App-header {
+  background-color: hsl(var(--card));
+  padding: 20px;
+  color: hsl(var(--card-foreground));
+}
+
+.App-link {
+  color: hsl(var(--primary));
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .App {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+} 
