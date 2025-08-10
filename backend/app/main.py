@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 import os
+import shutil
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
 from .database import get_db, create_tables, LogFile, LogEntry, AnalysisResult
@@ -98,6 +99,60 @@ async def test_database(db: Session = Depends(get_db)):
             "status": "error",
             "message": f"Database error: {str(e)}"
         }
+
+@app.post("/api/upload")
+async def upload_log_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    """Upload log file for analysis"""
+    try:
+        # Validate file type
+        allowed_extensions = ['.csv', '.log', '.txt']
+        file_extension = os.path.splitext(file.filename)[1].lower()
+        
+        if file_extension not in allowed_extensions:
+            raise HTTPException(status_code=400, detail="Sadece .csv, .log ve .txt dosyaları desteklenir")
+        
+        # Validate file size (50MB limit)
+        if file.size > 50 * 1024 * 1024:
+            raise HTTPException(status_code=400, detail="Dosya boyutu 50MB'dan küçük olmalıdır")
+        
+        # Create uploads directory if it doesn't exist
+        upload_dir = "uploads"
+        os.makedirs(upload_dir, exist_ok=True)
+        
+        # Save file
+        file_path = os.path.join(upload_dir, file.filename)
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+        
+        # Count lines in file
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            line_count = sum(1 for _ in f)
+        
+        # Create database entry
+        log_file = LogFile(
+            filename=file.filename,
+            file_size=file.size,
+            total_lines=line_count,
+            anomaly_count=0,  # Will be updated after analysis
+            file_path=file_path
+        )
+        db.add(log_file)
+        db.commit()
+        db.refresh(log_file)
+        
+        return {
+            "status": "success",
+            "message": "Dosya başarıyla yüklendi",
+            "file_id": log_file.id,
+            "filename": file.filename,
+            "file_size": file.size,
+            "total_lines": line_count
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Dosya yükleme hatası: {str(e)}")
 
 if __name__ == "__main__":
     uvicorn.run(

@@ -60,10 +60,30 @@ const LogUpload = () => {
 
     setUploadStatus('uploading');
     
-    // Mock upload - gerçek uygulamada API'ye gönderilecek
-    setTimeout(() => {
-      setUploadStatus('success');
-    }, 2000);
+    try {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      
+      const response = await fetch('http://localhost:8000/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Upload success:', result);
+        setUploadStatus('success');
+      } else {
+        const error = await response.json();
+        console.error('Upload error:', error);
+        setUploadStatus('error');
+        alert(`Yükleme hatası: ${error.detail}`);
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      setUploadStatus('error');
+      alert('Dosya yükleme sırasında bir hata oluştu');
+    }
   };
 
   const getFileIcon = (fileName) => {

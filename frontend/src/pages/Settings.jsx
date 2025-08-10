@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings, Bell, Shield, Database, Key, User, Mail, Slack } from 'lucide-react';
+import { Settings as SettingsIcon, Bell, Shield, Database, Key, User, Mail, Slack } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
