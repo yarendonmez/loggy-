@@ -1,0 +1,31 @@
+timestamp,level,message,source,user_id,ip_address
+2024-01-15 09:00:01,INFO,User login successful,auth_service,user123,192.168.1.100
+2024-01-15 09:00:15,INFO,Database connection established,db_service,system,192.168.1.50
+2024-01-15 09:01:23,WARNING,High CPU usage detected: 85%,monitoring,system,192.168.1.51
+2024-01-15 09:02:45,INFO,File uploaded successfully,file_service,user456,192.168.1.101
+2024-01-15 09:03:12,ERROR,Database connection timeout after 30s,db_service,system,192.168.1.50
+2024-01-15 09:03:30,CRITICAL,Memory usage exceeded 95%,monitoring,system,192.168.1.51
+2024-01-15 09:04:01,INFO,User logout,auth_service,user123,192.168.1.100
+2024-01-15 09:04:22,WARNING,Disk space low: 15% remaining,storage,system,192.168.1.52
+2024-01-15 09:05:15,ERROR,Failed to connect to external API,api_service,system,192.168.1.53
+2024-01-15 09:05:33,INFO,Backup process started,backup_service,system,192.168.1.54
+2024-01-15 09:06:01,INFO,User registration completed,auth_service,user789,192.168.1.102
+2024-01-15 09:06:45,WARNING,SSL certificate expires in 7 days,security,system,192.168.1.55
+2024-01-15 09:07:12,ERROR,Payment processing failed for order #12345,payment_service,user456,192.168.1.101
+2024-01-15 09:07:33,CRITICAL,Security breach detected from IP 10.0.0.1,security,system,10.0.0.1
+2024-01-15 09:08:01,INFO,Cache cleared successfully,cache_service,system,192.168.1.56
+2024-01-15 09:08:22,WARNING,Network latency high: 500ms,network,system,192.168.1.57
+2024-01-15 09:09:15,ERROR,Email service unavailable,email_service,system,192.168.1.58
+2024-01-15 09:09:33,INFO,Database backup completed,backup_service,system,192.168.1.54
+2024-01-15 09:10:01,CRITICAL,System overload: 1000 concurrent users,load_balancer,system,192.168.1.59
+2024-01-15 09:10:22,INFO,Log rotation completed,log_service,system,192.168.1.60
+2024-01-15 09:11:01,WARNING,Unusual login pattern detected,auth_service,user999,999.999.999.999
+2024-01-15 09:11:15,ERROR,File system corruption detected,storage,system,192.168.1.52
+2024-01-15 09:12:01,INFO,Service health check passed,monitoring,system,192.168.1.61
+2024-01-15 09:12:33,CRITICAL,Database server unreachable,db_service,system,192.168.1.50
+2024-01-15 09:13:01,INFO,User password changed,auth_service,user123,192.168.1.100
+2024-01-15 09:13:22,WARNING,Rate limit exceeded for API key,api_service,user456,192.168.1.101
+2024-01-15 09:14:01,ERROR,Transaction rolled back due to constraint violation,db_service,system,192.168.1.50
+2024-01-15 09:14:33,INFO,Scheduled task completed successfully,scheduler,system,192.168.1.62
+2024-01-15 09:15:01,CRITICAL,Multiple failed login attempts detected,security,system,192.168.1.100
+2024-01-15 09:15:22,INFO,System restart completed,system,system,192.168.1.63

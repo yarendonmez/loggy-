@@ -1,0 +1,300 @@
+2025-08-20 00:11:41 db-1 HealthCheck: Kubernetes liveness probe; user=bob; host=db-1 src=187.163.131.85 dst=10.59.66.7:587 bytes=356 mitre= malicious=false
+2025-08-20 01:13:04 sshd[6499]: Accepted password for bob from 81.148.84.15 port 46758 ssh2 host=web-2 mitre= malicious=false
+2025-08-20 01:54:42 win10-01 SMTP-Sent: User sent an email; user=eve; host=win10-01 src=192.168.212.88 dst=192.168.68.120:389 bytes=470 mitre= malicious=false
+2025-08-20 02:15:47 api-1 HealthCheck: Kubernetes liveness probe; user=bob; host=api-1 src=172.24.229.48 dst=192.168.140.213:110 bytes=33 mitre= malicious=false
+2025-08-20 02:32:02 dns: query www.example.com from 71.210.176.104 to 172.22.32.44:53 bytes=781 mitre= malicious=false
+2025-08-20 02:34:30 firewall: DDoS src=193.200.178.118 dst=10.82.97.158 dport=3306 proto=SSH pps=47889 mitre=T1499 malicious=true
+2025-08-20 02:54:00 firewall: PortScan src=172.24.27.20 dst=172.26.14.161 dport=3306 proto=RDP pps=10852 mitre=T1046 malicious=true
+2025-08-20 02:54:09 siem-1 DB-Query: Normal DB query; user=yaren; host=siem-1 src=192.168.82.132 dst=192.168.64.25:80 bytes=542 mitre= malicious=false
+2025-08-20 02:56:12 jump-1 DB-Query: Normal DB query; user=alice; host=jump-1 src=94.48.34.193 dst=10.247.233.17:3389 bytes=1613 mitre= malicious=false
+2025-08-20 03:04:49 dc-1 LateralMovement-SMB: Admin share access attempts; user=bob; host=dc-1 src=128.30.91.158 dst=172.25.44.166:3306 bytes=935 mitre=T1021.002 malicious=true
+2025-08-20 03:28:51 dc-1 PrivEsc: Token manipulation detected; user=svc-db; host=dc-1 src=172.20.95.25 dst=10.204.161.181:3306 bytes=26 mitre=T1068 malicious=true
+2025-08-20 04:05:11 web-2 PrivEsc: Token manipulation detected; user=carol; host=web-2 src=106.121.48.73 dst=192.168.105.125:389 bytes=424 mitre=T1068 malicious=true
+2025-08-20 04:12:15 web-2 DB-Query: Normal DB query; user=guest; host=web-2 src=183.217.89.196 dst=10.101.92.230:22 bytes=1261 mitre= malicious=false
+2025-08-20 04:12:59 api-1 Ping: ICMP echo request ok; user=alice; host=api-1 src=122.40.127.167 dst=192.168.14.23:389 bytes=1292 mitre= malicious=false
+2025-08-20 04:24:32 db-1 SystemUpdate: Package update completed; user=root; host=db-1 src=59.42.221.127 dst=10.169.171.55:22 bytes=337 mitre= malicious=false
+2025-08-20 04:59:45 siem-1 Ping: ICMP echo request ok; user=carol; host=siem-1 src=192.168.53.9 dst=192.168.55.73:445 bytes=286 mitre= malicious=false
+126.206.151.82 - - [2025-08-20 05:21:15] "GET http://192.168.174.47/download?dl=payload.exe HTTP/1.1" 401.0 4428 "GET to known malware host; user=bob; host=dc-1" mitre=T1105 malicious=true
+107.52.198.30 - - [2025-08-20 05:24:11] "GET http://192.168.241.29/?file=report.pdf%20OR%201=1-- HTTP/1.1" 403.0 969 "Suspicious SQL keywords in URL; user=guest; host=siem-1" mitre=T1190 malicious=true
+2025-08-20 05:26:18 waf-1 Ping: ICMP echo request ok; user=svc-db; host=waf-1 src=10.199.169.244 dst=192.168.27.230:110 bytes=615 mitre= malicious=false
+2025-08-20 05:35:55 waf-1 PrivEsc: Token manipulation detected; user=carol; host=waf-1 src=146.104.112.91 dst=192.168.71.89:110 bytes=1645 mitre=T1068 malicious=true
+2025-08-20 05:43:36 web-2 SMTP-Sent: User sent an email; user=yaren; host=web-2 src=90.201.97.67 dst=172.28.119.69:80 bytes=648 mitre= malicious=false
+86.89.125.165 - - [2025-08-20 05:49:49] "GET http://192.168.109.22/download?page=2%20OR%201=1-- HTTP/1.1" 500.0 1250 "Suspicious SQL keywords in URL; user=svc-db; host=web-1" mitre=T1190 malicious=true
+2025-08-20 06:17:25 siem-1 SystemUpdate: Package update completed; user=root; host=siem-1 src=13.105.62.85 dst=192.168.200.214:445 bytes=923 mitre= malicious=false
+2025-08-20 06:38:27 waf-1 CryptoMiner: Spike in CPU; pool traffic; user=yaren; host=waf-1 src=10.54.162.198 dst=172.17.63.61:445 bytes=78 mitre=T1496 malicious=true
+172.17.81.153 - - [2025-08-20 06:47:48] "GET http://172.26.161.212/api/v1/items?file=report.pdf HTTP/1.1" 500.0 636 "Normal web access; user=svc-app; host=jump-1" mitre= malicious=false
+2025-08-20 07:03:44 waf-1 Ping: ICMP echo request ok; user=svc-db; host=waf-1 src=54.174.85.31 dst=172.29.128.21:587 bytes=655 mitre= malicious=false
+2025-08-20 07:17:46 sshd[4641]: Accepted password for yaren from 194.131.36.185 port 64234 ssh2 host=waf-1 mitre= malicious=false
+2025-08-20 07:43:55 siem-1 DataExfil: Large outbound transfer; user=svc-app; host=siem-1 src=130.42.79.126 dst=10.36.16.143:53 bytes=55277 mitre=T1041 malicious=true
+2025-08-20 08:26:28 termservice: Logon failure for user alice from 172.29.214.173 to 192.168.211.47:5432 mitre=T1078 malicious=true
+2025-08-20 08:27:06 waf-1 FileRead: User opened a document; user=nt-authority; host=waf-1 src=192.168.36.69 dst=172.20.253.129:5432 bytes=1121 mitre= malicious=false
+2025-08-20 08:34:30 api-1 DataExfil: Large outbound transfer; user=bob; host=api-1 src=77.191.125.65 dst=192.168.73.28:6379 bytes=53714 mitre=T1041 malicious=true
+2025-08-20 08:36:31 siem-1 CryptoMiner: Spike in CPU; pool traffic; user=root; host=siem-1 src=51.114.186.139 dst=192.168.197.21:110 bytes=52 mitre=T1496 malicious=true
+2025-08-20 08:37:31 firewall: PortScan src=117.166.163.213 dst=192.168.57.199 dport=3389 proto=DNS pps=28283 mitre=T1046 malicious=true
+2025-08-20 08:44:13 termservice: Logon failure for user nt-authority from 202.121.55.44 to 172.24.133.118:445 mitre=T1078 malicious=true
+2025-08-20 09:13:48 sshd[4659]: Failed password for nt-authority from 192.168.29.25 port 32235 ssh2 host=siem-1 mitre=T1110 malicious=true
+2025-08-20 09:20:57 db-1 HealthCheck: Kubernetes liveness probe; user=nt-authority; host=db-1 src=192.168.42.70 dst=172.24.113.91:3306 bytes=930 mitre= malicious=false
+2025-08-20 09:36:38 siem-1 SystemUpdate: Package update completed; user=alice; host=siem-1 src=156.118.104.150 dst=192.168.44.59:6379 bytes=34 mitre= malicious=false
+2025-08-20 09:54:44 waf-1 DB-Query: Normal DB query; user=eve; host=waf-1 src=165.188.62.133 dst=172.18.215.155:3389 bytes=1012 mitre= malicious=false
+2025-08-20 10:10:42 proxy-1 DataExfil: Large outbound transfer; user=root; host=proxy-1 src=167.92.52.111 dst=192.168.189.69:587 bytes=55379 mitre=T1041 malicious=true
+2025-08-20 10:12:15 sshd[6031]: Accepted password for eve from 85.70.219.198 port 38869 ssh2 host=api-1 mitre= malicious=false
+2025-08-20 10:25:52 firewall: DDoS src=113.28.47.200 dst=192.168.248.201 dport=80 proto=SMB pps=32556 mitre=T1499 malicious=true
+2025-08-20 10:43:46 web-1 SMTP-Sent: User sent an email; user=svc-app; host=web-1 src=10.242.72.36 dst=10.209.19.119:8080 bytes=146 mitre= malicious=false
+2025-08-20 10:59:32 jump-1 SystemUpdate: Package update completed; user=bob; host=jump-1 src=131.124.172.88 dst=172.25.118.117:8080 bytes=841 mitre= malicious=false
+2025-08-20 11:00:17 sshd[6428]: Failed password for dave from 192.168.24.194 port 23554 ssh2 host=proxy-1 mitre=T1110 malicious=true
+2025-08-20 11:07:04 web-2 DB-Query: Normal DB query; user=yaren; host=web-2 src=90.31.141.63 dst=10.137.80.222:3389 bytes=1003 mitre= malicious=false
+2025-08-20 11:27:50 siem-1 SMTP-Sent: User sent an email; user=bob; host=siem-1 src=141.31.58.28 dst=192.168.17.102:445 bytes=419 mitre= malicious=false
+2025-08-20 11:50:38 api-1 SystemUpdate: Package update completed; user=dave; host=api-1 src=64.182.79.190 dst=192.168.165.230:389 bytes=412 mitre= malicious=false
+2025-08-20 12:13:04 siem-1 SystemUpdate: Package update completed; user=bob; host=siem-1 src=192.168.183.231 dst=10.199.29.95:389 bytes=810 mitre= malicious=false
+2025-08-20 12:33:47 web-2 DB-Query: Normal DB query; user=root; host=web-2 src=192.168.204.245 dst=172.30.178.237:80 bytes=211 mitre= malicious=false
+2025-08-20 12:49:23 siem-1 HealthCheck: Kubernetes liveness probe; user=guest; host=siem-1 src=92.217.199.189 dst=172.30.159.170:22 bytes=398 mitre= malicious=false
+2025-08-20 13:49:40 waf-1 HealthCheck: Kubernetes liveness probe; user=guest; host=waf-1 src=25.159.199.149 dst=10.191.123.84:53 bytes=1772 mitre= malicious=false
+2025-08-20 13:53:32 proxy-1 FileRead: User opened a document; user=carol; host=proxy-1 src=91.118.49.116 dst=192.168.52.51:6379 bytes=179 mitre= malicious=false
+172.28.242.228 - - [2025-08-20 14:23:59] "GET http://10.23.139.234/download?id=1%20OR%201=1-- HTTP/1.1" 200.0 1219 "Suspicious SQL keywords in URL; user=alice; host=waf-1" mitre=T1190 malicious=true
+2025-08-20 14:29:41 proxy-1 HealthCheck: Kubernetes liveness probe; user=svc-db; host=proxy-1 src=172.24.0.82 dst=10.11.153.1:143 bytes=2092 mitre= malicious=false
+2025-08-20 14:49:31 dc-1 SystemUpdate: Package update completed; user=yaren; host=dc-1 src=172.24.22.40 dst=172.20.4.152:53 bytes=320 mitre= malicious=false
+2025-08-20 15:03:40 sshd[7089]: Accepted password for svc-app from 172.30.122.56 port 46605 ssh2 host=waf-1 mitre= malicious=false
+2025-08-20 15:23:34 dns: query mfrlgm3dmfrlgm3d.example.com from 172.27.218.233 to 172.28.38.227:8080 bytes=101 mitre=T1071.004 malicious=true
+2025-08-20 15:25:24 sshd[5269]: Accepted password for guest from 192.168.30.9 port 50459 ssh2 host=db-1 mitre= malicious=false
+2025-08-20 16:03:30 web-2 PrivEsc: Token manipulation detected; user=nt-authority; host=web-2 src=81.68.148.84 dst=10.199.222.151:6379 bytes=1149 mitre=T1068 malicious=true
+2025-08-20 16:11:49 dns: query mfrlgm3dmfrlgm3d.example.com from 128.100.89.221 to 10.57.17.133:443 bytes=2081 mitre=T1071.004 malicious=true
+172.28.86.187 - - [2025-08-20 16:22:27] "GET http://172.27.71.71/search?dl=payload.exe HTTP/1.1" 404.0 5926 "GET to known malware host; user=svc-db; host=win10-01" mitre=T1105 malicious=true
+2025-08-20 17:00:26 powershell: EncodedCommand detected user=yaren host=api-1 src=172.16.178.200 dst=172.27.234.80:3389 mitre=T1059.001 malicious=true
+2025-08-20 17:16:22 siem-1 FileRead: User opened a document; user=alice; host=siem-1 src=102.158.86.190 dst=172.16.89.222:3389 bytes=185 mitre= malicious=false
+111.157.151.136 - - [2025-08-20 17:17:51] "GET http://10.13.244.8/index.php?file=report.pdf HTTP/1.1" 200 119 "Normal web access; user=bob; host=jump-1" mitre= malicious=false
+2025-08-20 17:53:51 api-1 DB-Query: Normal DB query; user=svc-app; host=api-1 src=172.22.151.134 dst=192.168.122.162:80 bytes=552 mitre= malicious=false
+195.60.91.41 - - [2025-08-20 18:18:23] "GET http://192.168.137.47/download?file=report.pdf HTTP/1.1" 401.0 352 "Normal web access; user=dave; host=waf-1" mitre= malicious=false
+2025-08-20 18:22:11 web-2 BackupComplete: Nightly backup finished; user=yaren; host=web-2 src=172.16.79.101 dst=192.168.138.24:8080 bytes=1445 mitre= malicious=false
+2025-08-20 18:28:12 termservice: Logon failure for user root from 172.28.157.200 to 10.88.68.250:110 mitre=T1078 malicious=true
+2025-08-20 18:52:25 dns: query www.example.com from 192.168.70.254 to 192.168.124.15:445 bytes=737 mitre= malicious=false
+192.168.76.126 - - [2025-08-20 19:00:58] "GET http://10.38.97.197/index.php?dl=payload.exe HTTP/1.1" 500.0 5245 "GET to known malware host; user=guest; host=dc-1" mitre=T1105 malicious=true
+2025-08-20 19:32:55 sshd[5817]: Accepted password for dave from 165.165.21.29 port 50942 ssh2 host=win10-01 mitre= malicious=false
+2025-08-20 19:33:15 dns: query www.example.com from 83.97.151.158 to 10.144.238.177:6379 bytes=15 mitre= malicious=false
+137.48.27.53 - - [2025-08-20 19:34:55] "GET http://172.20.106.87/index.php?id=1&term=<script>alert(1)</script> HTTP/1.1" 401.0 502 "Reflected script tag in query; user=bob; host=win10-01" mitre=T1059.007 malicious=true
+2025-08-20 20:04:19 web-2 HealthCheck: Kubernetes liveness probe; user=dave; host=web-2 src=196.206.39.19 dst=192.168.107.84:22 bytes=2776 mitre= malicious=false
+2025-08-20 20:19:30 siem-1 PrivEsc: Token manipulation detected; user=carol; host=siem-1 src=141.113.184.148 dst=172.31.7.30:110 bytes=589 mitre=T1068 malicious=true
+2025-08-20 20:41:27 dc-1 BackupComplete: Nightly backup finished; user=eve; host=dc-1 src=179.165.49.96 dst=10.149.46.107:143 bytes=1232 mitre= malicious=false
+2025-08-20 21:12:50 jump-1 PrivEsc: Token manipulation detected; user=dave; host=jump-1 src=10.209.167.187 dst=172.26.196.133:143 bytes=1012 mitre=T1068 malicious=true
+2025-08-20 21:16:21 waf-1 SMTP-Sent: User sent an email; user=eve; host=waf-1 src=10.163.75.109 dst=172.17.164.51:22 bytes=1380 mitre= malicious=false
+2025-08-20 21:40:42 db-1 Ping: ICMP echo request ok; user=bob; host=db-1 src=10.115.33.169 dst=172.21.147.198:80 bytes=222 mitre= malicious=false
+2025-08-20 21:48:00 jump-1 SMTP-Sent: User sent an email; user=carol; host=jump-1 src=10.240.93.184 dst=10.67.180.10:110 bytes=688 mitre= malicious=false
+2025-08-20 21:50:42 db-1 CryptoMiner: Spike in CPU; pool traffic; user=nt-authority; host=db-1 src=203.29.13.128 dst=192.168.255.155:110 bytes=539 mitre=T1496 malicious=true
+2025-08-20 21:52:54 dc-1 BackupComplete: Nightly backup finished; user=root; host=dc-1 src=153.162.199.55 dst=192.168.173.195:6379 bytes=256 mitre= malicious=false
+2025-08-20 22:14:13 db-1 BackupComplete: Nightly backup finished; user=carol; host=db-1 src=26.167.200.36 dst=10.160.33.193:465 bytes=285 mitre= malicious=false
+2025-08-20 22:17:50 win10-01 Ping: ICMP echo request ok; user=root; host=win10-01 src=172.23.146.122 dst=192.168.135.235:3306 bytes=71 mitre= malicious=false
+2025-08-20 22:20:31 api-1 BackupComplete: Nightly backup finished; user=alice; host=api-1 src=172.18.9.159 dst=10.186.148.171:3389 bytes=1753 mitre= malicious=false
+2025-08-20 22:32:35 win10-01 FileRead: User opened a document; user=nt-authority; host=win10-01 src=175.213.95.219 dst=10.171.140.192:80 bytes=127 mitre= malicious=false
+26.207.33.177 - - [2025-08-20 23:23:12] "GET http://192.168.59.115/api/v1/items?sort=asc HTTP/1.1" 200.0 1257 "Normal web access; user=svc-app; host=api-1" mitre= malicious=false
+2025-08-20 23:25:06 proxy-1 SMTP-Sent: User sent an email; user=svc-db; host=proxy-1 src=57.17.92.163 dst=10.7.128.111:465 bytes=219 mitre= malicious=false
+2025-08-20 23:25:09 proxy-1 SMTP-Sent: User sent an email; user=root; host=proxy-1 src=172.23.117.196 dst=192.168.166.19:587 bytes=541 mitre= malicious=false
+2025-08-20 23:40:00 firewall: DDoS src=65.101.215.77 dst=172.20.121.124 dport=465 proto=SMB pps=35393 mitre=T1499 malicious=true
+2025-08-20 23:44:52 api-1 SMTP-Sent: User sent an email; user=svc-app; host=api-1 src=192.168.117.74 dst=10.201.91.98:3306 bytes=2306 mitre= malicious=false
+2025-08-20 23:45:57 siem-1 PrivEsc: Token manipulation detected; user=carol; host=siem-1 src=80.211.126.136 dst=10.91.22.114:3389 bytes=886 mitre=T1068 malicious=true
+10.51.103.74 - - [2025-08-20 23:47:27] "GET http://10.201.88.232/search?dl=payload.exe HTTP/1.1" 200 5732 "GET to known malware host; user=nt-authority; host=jump-1" mitre=T1105 malicious=true
+2025-08-21 00:16:14 waf-1 BackupComplete: Nightly backup finished; user=alice; host=waf-1 src=37.52.95.116 dst=192.168.126.216:3389 bytes=889 mitre= malicious=false
+2025-08-21 00:17:19 sshd[2929]: Failed password for svc-app from 192.168.250.213 port 49601 ssh2 host=proxy-1 mitre=T1110 malicious=true
+2025-08-21 00:24:27 db-1 DB-Query: Normal DB query; user=alice; host=db-1 src=203.71.183.90 dst=10.206.122.232:143 bytes=967 mitre= malicious=false
+149.31.46.49 - - [2025-08-21 00:27:20] "GET http://10.98.14.154/download?dl=payload.exe HTTP/1.1" 403.0 4907 "GET to known malware host; user=bob; host=dc-1" mitre=T1105 malicious=true
+2025-08-21 00:46:14 proxy-1 CryptoMiner: Spike in CPU; pool traffic; user=carol; host=proxy-1 src=122.51.127.11 dst=192.168.224.56:465 bytes=229 mitre=T1496 malicious=true
+2025-08-21 01:00:30 firewall: DDoS src=10.129.42.32 dst=192.168.44.45 dport=445 proto=DNS pps=35837 mitre=T1499 malicious=true
+2025-08-21 01:02:45 firewall: DDoS src=10.186.207.180 dst=172.24.148.100 dport=3389 proto=UDP pps=8517 mitre=T1499 malicious=true
+38.195.11.23 - - [2025-08-21 01:31:16] "GET http://172.23.2.244/download?page=2%20OR%201=1-- HTTP/1.1" 403.0 608 "Suspicious SQL keywords in URL; user=svc-app; host=waf-1" mitre=T1190 malicious=true
+2025-08-21 01:33:58 api-1 SystemUpdate: Package update completed; user=dave; host=api-1 src=192.168.208.167 dst=10.60.124.30:143 bytes=2570 mitre= malicious=false
+2025-08-21 02:05:22 jump-1 SMTP-Sent: User sent an email; user=carol; host=jump-1 src=10.115.176.215 dst=172.23.105.223:110 bytes=212 mitre= malicious=false
+2025-08-21 02:31:18 dc-1 Ping: ICMP echo request ok; user=eve; host=dc-1 src=181.95.170.91 dst=192.168.217.24:587 bytes=1258 mitre= malicious=false
+2025-08-21 02:51:02 sshd[2166]: Accepted password for guest from 10.165.8.221 port 39957 ssh2 host=proxy-1 mitre= malicious=false
+2025-08-21 02:56:47 web-1 HealthCheck: Kubernetes liveness probe; user=guest; host=web-1 src=94.209.156.163 dst=10.226.34.183:143 bytes=2108 mitre= malicious=false
+2025-08-21 03:09:00 win10-01 SystemUpdate: Package update completed; user=bob; host=win10-01 src=172.22.138.82 dst=172.26.220.196:53 bytes=1201 mitre= malicious=false
+192.168.99.115 - - [2025-08-21 03:10:59] "GET http://172.25.138.246/index.php?user=alice&term=<script>alert(1)</script> HTTP/1.1" 500.0 665 "Reflected script tag in query; user=carol; host=waf-1" mitre=T1059.007 malicious=true
+2025-08-21 03:19:09 waf-1 BackupComplete: Nightly backup finished; user=svc-db; host=waf-1 src=173.214.207.34 dst=172.24.63.244:465 bytes=27 mitre= malicious=false
+2025-08-21 03:23:00 waf-1 SystemUpdate: Package update completed; user=alice; host=waf-1 src=212.111.104.40 dst=192.168.51.39:389 bytes=1011 mitre= malicious=false
+2025-08-21 03:52:08 api-1 HealthCheck: Kubernetes liveness probe; user=yaren; host=api-1 src=10.164.62.86 dst=192.168.36.147:22 bytes=1107 mitre= malicious=false
+2025-08-21 03:57:51 siem-1 LateralMovement-SMB: Admin share access attempts; user=nt-authority; host=siem-1 src=120.91.213.46 dst=10.70.231.91:80 bytes=749 mitre=T1021.002 malicious=true
+2025-08-21 04:07:11 api-1 Ping: ICMP echo request ok; user=carol; host=api-1 src=172.19.151.182 dst=10.81.149.85:110 bytes=679 mitre= malicious=false
+2025-08-21 04:42:56 firewall: DDoS src=156.26.122.180 dst=10.60.157.19 dport=465 proto=SSH pps=35947 mitre=T1499 malicious=true
+2025-08-21 05:22:24 web-1 DataExfil: Large outbound transfer; user=dave; host=web-1 src=145.156.18.55 dst=10.224.11.214:443 bytes=54833 mitre=T1041 malicious=true
+2025-08-21 05:35:42 jump-1 LateralMovement-SMB: Admin share access attempts; user=bob; host=jump-1 src=205.72.187.132 dst=192.168.182.60:5432 bytes=1345 mitre=T1021.002 malicious=true
+2025-08-21 05:43:42 waf-1 BackupComplete: Nightly backup finished; user=carol; host=waf-1 src=107.58.204.148 dst=172.19.219.2:445 bytes=985 mitre= malicious=false
+2025-08-21 05:54:51 siem-1 FileRead: User opened a document; user=bob; host=siem-1 src=181.203.119.195 dst=10.247.232.249:587 bytes=325 mitre= malicious=false
+2025-08-21 06:29:01 web-2 SMTP-Sent: User sent an email; user=eve; host=web-2 src=192.168.221.237 dst=172.25.41.215:445 bytes=1129 mitre= malicious=false
+2025-08-21 06:43:13 api-1 HealthCheck: Kubernetes liveness probe; user=dave; host=api-1 src=129.74.30.124 dst=192.168.25.17:22 bytes=126 mitre= malicious=false
+2025-08-21 06:49:45 sshd[4187]: Failed password for bob from 185.122.62.221 port 55688 ssh2 host=web-2 mitre=T1110 malicious=true
+172.23.88.15 - - [2025-08-21 06:51:38] "GET http://172.19.125.201/?q=books HTTP/1.1" 404.0 45 "Normal web access; user=guest; host=dc-1" mitre= malicious=false
+2025-08-21 07:11:51 web-2 DB-Query: Normal DB query; user=alice; host=web-2 src=172.21.202.189 dst=10.255.80.190:6379 bytes=224 mitre= malicious=false
+2025-08-21 07:12:38 dc-1 CryptoMiner: Spike in CPU; pool traffic; user=root; host=dc-1 src=129.57.23.77 dst=172.21.60.215:5432 bytes=231 mitre=T1496 malicious=true
+2025-08-21 07:22:45 proxy-1 FileRead: User opened a document; user=guest; host=proxy-1 src=78.197.104.206 dst=172.21.218.226:3389 bytes=834 mitre= malicious=false
+212.91.122.166 - - [2025-08-21 07:38:38] "GET http://192.168.29.155/api/v1/items?trackid=ae12&login=verify HTTP/1.1" 200.0 246 "User clicked suspicious URL; user=alice; host=dc-1" mitre=T1566.002 malicious=true
+2025-08-21 08:09:56 db-1 FileRead: User opened a document; user=eve; host=db-1 src=192.168.76.150 dst=192.168.246.72:465 bytes=1782 mitre= malicious=false
+2025-08-21 08:10:25 api-1 DataExfil: Large outbound transfer; user=svc-db; host=api-1 src=63.194.160.136 dst=10.230.29.157:5432 bytes=55221 mitre=T1041 malicious=true
+80.37.44.33 - - [2025-08-21 08:23:04] "GET http://10.110.84.173/?dl=payload.exe HTTP/1.1" 401.0 5866 "GET to known malware host; user=alice; host=web-2" mitre=T1105 malicious=true
+2025-08-21 08:27:38 web-2 Ping: ICMP echo request ok; user=svc-db; host=web-2 src=129.208.184.161 dst=192.168.128.31:8080 bytes=1363 mitre= malicious=false
+2025-08-21 08:31:49 firewall: PortScan src=172.20.212.198 dst=192.168.185.15 dport=22 proto=HTTPS pps=37799 mitre=T1046 malicious=true
+2025-08-21 08:39:41 api-1 BackupComplete: Nightly backup finished; user=bob; host=api-1 src=172.22.2.165 dst=10.174.199.107:143 bytes=1762 mitre= malicious=false
+2025-08-21 08:44:54 sshd[2963]: Accepted password for carol from 192.168.166.223 port 40673 ssh2 host=web-1 mitre= malicious=false
+2025-08-21 08:52:52 win10-01 BackupComplete: Nightly backup finished; user=svc-app; host=win10-01 src=172.21.108.68 dst=172.22.97.51:110 bytes=532 mitre= malicious=false
+2025-08-21 09:09:44 web-1 FileRead: User opened a document; user=carol; host=web-1 src=172.158.60.194 dst=192.168.98.77:3389 bytes=462 mitre= malicious=false
+2025-08-21 09:17:09 dc-1 DB-Query: Normal DB query; user=eve; host=dc-1 src=138.163.148.15 dst=192.168.131.240:445 bytes=654 mitre= malicious=false
+2025-08-21 09:19:04 firewall: PortScan src=182.136.146.174 dst=172.25.141.50 dport=3389 proto=SMTP pps=49610 mitre=T1046 malicious=true
+2025-08-21 10:24:11 firewall: DDoS src=10.194.67.106 dst=192.168.120.24 dport=22 proto=UDP pps=30013 mitre=T1499 malicious=true
+2025-08-21 10:36:15 waf-1 LateralMovement-SMB: Admin share access attempts; user=eve; host=waf-1 src=172.16.82.224 dst=172.29.20.4:587 bytes=1070 mitre=T1021.002 malicious=true
+2025-08-21 10:37:29 db-1 DB-Query: Normal DB query; user=alice; host=db-1 src=30.186.82.150 dst=192.168.168.122:389 bytes=722 mitre= malicious=false
+2025-08-21 10:48:21 api-1 DataExfil: Large outbound transfer; user=alice; host=api-1 src=168.62.217.44 dst=172.27.120.148:8443 bytes=53855 mitre=T1041 malicious=true
+202.166.106.117 - - [2025-08-21 10:49:12] "GET http://192.168.140.155/index.php?id=1&term=<script>alert(1)</script> HTTP/1.1" 200 538 "Reflected script tag in query; user=yaren; host=db-1" mitre=T1059.007 malicious=true
+2025-08-21 10:54:55 firewall: DDoS src=192.168.166.166 dst=192.168.57.192 dport=5432 proto=UDP pps=39723 mitre=T1499 malicious=true
+2025-08-21 10:59:43 api-1 CryptoMiner: Spike in CPU; pool traffic; user=bob; host=api-1 src=192.168.239.46 dst=10.182.30.96:110 bytes=192 mitre=T1496 malicious=true
+2025-08-21 11:06:43 siem-1 CryptoMiner: Spike in CPU; pool traffic; user=nt-authority; host=siem-1 src=38.100.153.105 dst=10.195.58.32:445 bytes=41 mitre=T1496 malicious=true
+2025-08-21 11:21:33 win10-01 CryptoMiner: Spike in CPU; pool traffic; user=svc-app; host=win10-01 src=132.20.55.81 dst=172.18.77.57:3389 bytes=478 mitre=T1496 malicious=true
+2025-08-21 11:26:07 api-1 DB-Query: Normal DB query; user=dave; host=api-1 src=89.22.67.112 dst=192.168.14.7:443 bytes=806 mitre= malicious=false
+2025-08-21 11:42:01 jump-1 FileRead: User opened a document; user=carol; host=jump-1 src=172.17.45.5 dst=10.82.117.236:143 bytes=604 mitre= malicious=false
+2025-08-21 12:07:36 api-1 BackupComplete: Nightly backup finished; user=svc-db; host=api-1 src=185.120.55.101 dst=10.232.134.161:465 bytes=141 mitre= malicious=false
+2025-08-21 12:17:56 web-2 PrivEsc: Token manipulation detected; user=svc-db; host=web-2 src=10.52.28.101 dst=172.24.201.155:587 bytes=889 mitre=T1068 malicious=true
+2025-08-21 12:27:59 siem-1 FileRead: User opened a document; user=guest; host=siem-1 src=172.16.219.241 dst=10.111.229.5:80 bytes=314 mitre= malicious=false
+2025-08-21 12:33:42 sshd[5888]: Accepted password for carol from 143.215.157.184 port 8906 ssh2 host=db-1 mitre= malicious=false
+2025-08-21 12:34:32 waf-1 HealthCheck: Kubernetes liveness probe; user=nt-authority; host=waf-1 src=172.29.234.75 dst=10.223.202.241:5432 bytes=669 mitre= malicious=false
+2025-08-21 12:47:55 firewall: PortScan src=192.168.50.232 dst=192.168.166.95 dport=3306 proto=HTTP pps=32073 mitre=T1046 malicious=true
+2025-08-21 12:48:17 web-2 SMTP-Sent: User sent an email; user=carol; host=web-2 src=172.26.244.133 dst=172.22.166.109:5432 bytes=893 mitre= malicious=false
+2025-08-21 12:56:29 api-1 SystemUpdate: Package update completed; user=nt-authority; host=api-1 src=54.179.153.57 dst=172.17.143.201:143 bytes=1103 mitre= malicious=false
+2025-08-21 13:34:24 dc-1 Ping: ICMP echo request ok; user=carol; host=dc-1 src=51.95.154.120 dst=172.19.181.175:3389 bytes=1207 mitre= malicious=false
+53.52.93.192 - - [2025-08-21 13:43:37] "GET http://10.88.148.248/search?user=alice%20OR%201=1-- HTTP/1.1" 500.0 456 "Suspicious SQL keywords in URL; user=eve; host=db-1" mitre=T1190 malicious=true
+193.158.171.30 - - [2025-08-21 14:08:45] "GET http://172.23.72.126/login?page=2 HTTP/1.1" 302.0 332 "Normal web access; user=svc-db; host=siem-1" mitre= malicious=false
+2025-08-21 14:15:50 dns: query www.example.com from 55.128.147.98 to 192.168.90.179:465 bytes=1229 mitre= malicious=false
+2025-08-21 14:15:58 api-1 FileRead: User opened a document; user=nt-authority; host=api-1 src=191.103.30.155 dst=10.15.207.97:443 bytes=872 mitre= malicious=false
+2025-08-21 14:17:19 waf-1 PrivEsc: Token manipulation detected; user=nt-authority; host=waf-1 src=216.150.214.15 dst=172.28.130.187:8080 bytes=1993 mitre=T1068 malicious=true
+2025-08-21 15:13:54 web-1 DB-Query: Normal DB query; user=svc-app; host=web-1 src=191.85.85.157 dst=172.31.61.5:110 bytes=651 mitre= malicious=false
+2025-08-21 15:24:22 dc-1 FileRead: User opened a document; user=carol; host=dc-1 src=10.252.115.126 dst=172.16.129.253:3306 bytes=610 mitre= malicious=false
+2025-08-21 15:32:52 dc-1 PrivEsc: Token manipulation detected; user=dave; host=dc-1 src=172.24.172.54 dst=10.194.143.162:5432 bytes=690 mitre=T1068 malicious=true
+2025-08-21 15:37:19 db-1 CryptoMiner: Spike in CPU; pool traffic; user=eve; host=db-1 src=105.108.105.58 dst=172.16.182.193:5432 bytes=291 mitre=T1496 malicious=true
+118.181.108.184 - - [2025-08-21 16:22:15] "GET http://192.168.231.31/login?page=2 HTTP/1.1" 401.0 376 "Normal web access; user=nt-authority; host=web-1" mitre= malicious=false
+2025-08-21 16:24:27 api-1 HealthCheck: Kubernetes liveness probe; user=svc-db; host=api-1 src=84.46.58.91 dst=172.25.233.27:8080 bytes=2451 mitre= malicious=false
+2025-08-21 16:34:49 proxy-1 BackupComplete: Nightly backup finished; user=bob; host=proxy-1 src=110.73.76.63 dst=172.26.88.233:5432 bytes=421 mitre= malicious=false
+2025-08-21 16:53:02 jump-1 SystemUpdate: Package update completed; user=root; host=jump-1 src=192.168.72.94 dst=172.26.243.92:6379 bytes=1319 mitre= malicious=false
+2025-08-21 17:33:16 web-1 Ping: ICMP echo request ok; user=svc-db; host=web-1 src=181.182.32.145 dst=172.17.21.55:22 bytes=249 mitre= malicious=false
+2025-08-21 17:40:14 firewall: DDoS src=10.219.107.164 dst=10.165.186.177 dport=443 proto=HTTPS pps=8543 mitre=T1499 malicious=true
+2025-08-21 17:57:30 dc-1 DB-Query: Normal DB query; user=svc-app; host=dc-1 src=211.132.217.115 dst=10.24.37.189:3306 bytes=210 mitre= malicious=false
+204.55.131.143 - - [2025-08-21 17:57:39] "GET http://192.168.113.54/?sort=asc HTTP/1.1" 500.0 1402 "Normal web access; user=guest; host=dc-1" mitre= malicious=false
+2025-08-21 18:02:29 jump-1 SystemUpdate: Package update completed; user=svc-app; host=jump-1 src=28.22.180.69 dst=172.31.195.120:445 bytes=412 mitre= malicious=false
+2025-08-21 18:03:43 db-1 DB-Query: Normal DB query; user=yaren; host=db-1 src=24.160.133.54 dst=192.168.161.8:3389 bytes=1125 mitre= malicious=false
+2025-08-21 19:14:26 siem-1 SMTP-Sent: User sent an email; user=yaren; host=siem-1 src=10.27.255.163 dst=10.168.88.149:8080 bytes=1056 mitre= malicious=false
+192.168.235.212 - - [2025-08-21 19:19:47] "GET http://172.23.6.198/admin?dl=payload.exe HTTP/1.1" 404.0 6084 "GET to known malware host; user=svc-app; host=jump-1" mitre=T1105 malicious=true
+2025-08-21 19:25:45 proxy-1 BackupComplete: Nightly backup finished; user=yaren; host=proxy-1 src=108.163.130.146 dst=172.31.137.138:22 bytes=1034 mitre= malicious=false
+2025-08-21 19:27:25 jump-1 SMTP-Sent: User sent an email; user=carol; host=jump-1 src=36.60.86.69 dst=172.18.222.255:22 bytes=865 mitre= malicious=false
+2025-08-21 19:31:45 dns: query www.example.com from 10.62.166.230 to 192.168.11.84:5432 bytes=1100 mitre= malicious=false
+2025-08-21 20:10:32 web-2 DB-Query: Normal DB query; user=yaren; host=web-2 src=172.23.17.143 dst=172.26.207.95:6379 bytes=767 mitre= malicious=false
+2025-08-21 20:13:24 proxy-1 HealthCheck: Kubernetes liveness probe; user=nt-authority; host=proxy-1 src=10.13.181.213 dst=10.84.194.158:443 bytes=759 mitre= malicious=false
+139.175.54.162 - - [2025-08-21 20:44:28] "GET http://192.168.39.122/index.php?dl=payload.exe HTTP/1.1" 200.0 5417 "GET to known malware host; user=alice; host=web-1" mitre=T1105 malicious=true
+2025-08-21 20:49:49 dns: query mfrlgm3dmfrlgm3d.example.com from 82.19.187.105 to 10.113.129.142:445 bytes=38 mitre=T1071.004 malicious=true
+2025-08-21 20:54:16 win10-01 DB-Query: Normal DB query; user=svc-db; host=win10-01 src=38.45.88.12 dst=172.21.80.195:3389 bytes=150 mitre= malicious=false
+2025-08-21 21:02:46 win10-01 PrivEsc: Token manipulation detected; user=root; host=win10-01 src=74.193.29.32 dst=172.18.119.177:143 bytes=1048 mitre=T1068 malicious=true
+2025-08-21 21:06:07 sshd[3470]: Accepted password for dave from 179.160.155.144 port 18113 ssh2 host=jump-1 mitre= malicious=false
+2025-08-21 21:07:51 firewall: PortScan src=219.101.79.214 dst=172.17.67.170 dport=3389 proto=DNS pps=14002 mitre=T1046 malicious=true
+2025-08-21 21:44:07 firewall: PortScan src=172.25.219.115 dst=192.168.113.65 dport=443 proto=UDP pps=18126 mitre=T1046 malicious=true
+2025-08-21 22:19:32 jump-1 HealthCheck: Kubernetes liveness probe; user=alice; host=jump-1 src=10.210.88.110 dst=192.168.171.135:8443 bytes=1530 mitre= malicious=false
+10.19.53.230 - - [2025-08-21 22:33:53] "GET http://192.168.163.53/api/v1/items?id=1 HTTP/1.1" 200.0 384 "Normal web access; user=yaren; host=api-1" mitre= malicious=false
+2025-08-21 22:44:06 api-1 DataExfil: Large outbound transfer; user=svc-app; host=api-1 src=192.168.8.169 dst=10.241.247.218:53 bytes=55685 mitre=T1041 malicious=true
+2025-08-21 23:09:38 jump-1 Ping: ICMP echo request ok; user=alice; host=jump-1 src=221.129.190.88 dst=192.168.104.135:143 bytes=677 mitre= malicious=false
+2025-08-21 23:19:21 db-1 CryptoMiner: Spike in CPU; pool traffic; user=nt-authority; host=db-1 src=143.126.41.74 dst=10.16.100.1:22 bytes=779 mitre=T1496 malicious=true
+157.117.169.174 - - [2025-08-21 23:24:49] "GET http://10.127.127.109/admin?file=report.pdf HTTP/1.1" 200 837 "Normal web access; user=svc-db; host=db-1" mitre= malicious=false
+2025-08-21 23:43:29 sshd[6614]: Failed password for dave from 86.77.118.114 port 3338 ssh2 host=proxy-1 mitre=T1110 malicious=true
+2025-08-21 23:43:57 siem-1 PrivEsc: Token manipulation detected; user=yaren; host=siem-1 src=208.171.137.129 dst=192.168.194.136:5432 bytes=446 mitre=T1068 malicious=true
+2025-08-22 00:08:45 web-2 DB-Query: Normal DB query; user=carol; host=web-2 src=10.108.213.233 dst=10.139.104.113:143 bytes=1250 mitre= malicious=false
+2025-08-22 00:12:03 dns: query mfrlgm3dmfrlgm3d.example.com from 166.124.117.80 to 10.193.67.245:110 bytes=739 mitre=T1071.004 malicious=true
+2025-08-22 00:33:52 firewall: PortScan src=210.154.115.169 dst=192.168.39.145 dport=445 proto=ICMP pps=31816 mitre=T1046 malicious=true
+2025-08-22 00:57:30 proxy-1 LateralMovement-SMB: Admin share access attempts; user=guest; host=proxy-1 src=108.221.174.106 dst=10.172.194.23:6379 bytes=1010 mitre=T1021.002 malicious=true
+2025-08-22 01:01:48 jump-1 DataExfil: Large outbound transfer; user=svc-db; host=jump-1 src=10.57.34.168 dst=192.168.251.62:3389 bytes=56412 mitre=T1041 malicious=true
+2025-08-22 01:01:58 sshd[8496]: Accepted password for dave from 192.168.25.50 port 48748 ssh2 host=db-1 mitre= malicious=false
+112.220.99.208 - - [2025-08-22 01:16:12] "GET http://10.74.91.27/index.php?trackid=ae12&login=verify HTTP/1.1" 500.0 56 "User clicked suspicious URL; user=root; host=waf-1" mitre=T1566.002 malicious=true
+2025-08-22 01:19:22 siem-1 DB-Query: Normal DB query; user=eve; host=siem-1 src=172.22.88.179 dst=192.168.50.198:445 bytes=859 mitre= malicious=false
+192.168.174.77 - - [2025-08-22 01:21:11] "GET http://10.160.212.223/index.php?dl=payload.exe HTTP/1.1" 404.0 4598 "GET to known malware host; user=svc-db; host=web-1" mitre=T1105 malicious=true
+2025-08-22 01:27:12 siem-1 CryptoMiner: Spike in CPU; pool traffic; user=guest; host=siem-1 src=192.168.42.65 dst=172.30.182.114:22 bytes=24 mitre=T1496 malicious=true
+2025-08-22 01:44:39 jump-1 DB-Query: Normal DB query; user=svc-db; host=jump-1 src=160.47.70.129 dst=192.168.65.5:465 bytes=885 mitre= malicious=false
+10.23.90.130 - - [2025-08-22 02:00:46] "GET http://10.23.221.238/download?user=alice&term=<script>alert(1)</script> HTTP/1.1" 200.0 263 "Reflected script tag in query; user=carol; host=proxy-1" mitre=T1059.007 malicious=true
+2025-08-22 02:06:37 jump-1 CryptoMiner: Spike in CPU; pool traffic; user=svc-app; host=jump-1 src=186.94.207.209 dst=10.58.162.229:53 bytes=1863 mitre=T1496 malicious=true
+123.117.134.129 - - [2025-08-22 02:08:35] "GET http://10.87.22.221/api/v1/items?id=1%20OR%201=1-- HTTP/1.1" 403.0 800 "Suspicious SQL keywords in URL; user=root; host=win10-01" mitre=T1190 malicious=true
+2025-08-22 02:10:52 siem-1 DB-Query: Normal DB query; user=alice; host=siem-1 src=192.167.172.120 dst=10.157.188.22:443 bytes=1471 mitre= malicious=false
+2025-08-22 02:23:41 dns: query www.example.com from 215.143.79.216 to 10.186.34.1:80 bytes=342 mitre= malicious=false
+2025-08-22 03:04:34 api-1 HealthCheck: Kubernetes liveness probe; user=svc-db; host=api-1 src=10.37.112.54 dst=192.168.82.117:445 bytes=262 mitre= malicious=false
+2025-08-22 03:10:46 sshd[3346]: Accepted password for alice from 138.122.176.211 port 65074 ssh2 host=db-1 mitre= malicious=false
+2025-08-22 03:18:35 termservice: Logon failure for user dave from 105.221.129.140 to 172.26.42.164:110 mitre=T1078 malicious=true
+2025-08-22 03:29:40 web-1 FileRead: User opened a document; user=alice; host=web-1 src=66.140.127.106 dst=10.158.42.116:6379 bytes=771 mitre= malicious=false
+2025-08-22 03:30:16 dns: query www.example.com from 56.198.144.177 to 172.25.218.199:6379 bytes=58 mitre= malicious=false
+10.17.65.38 - - [2025-08-22 03:32:36] "GET http://10.220.17.17/login?sort=asc%20OR%201=1-- HTTP/1.1" 500.0 150 "Suspicious SQL keywords in URL; user=dave; host=jump-1" mitre=T1190 malicious=true
+2025-08-22 03:36:31 dns: query www.example.com from 132.219.15.105 to 172.26.199.234:3306 bytes=353 mitre= malicious=false
+2025-08-22 03:49:15 web-2 HealthCheck: Kubernetes liveness probe; user=guest; host=web-2 src=22.70.144.116 dst=192.168.229.69:5432 bytes=2297 mitre= malicious=false
+2025-08-22 03:51:26 proxy-1 SMTP-Sent: User sent an email; user=yaren; host=proxy-1 src=163.146.86.127 dst=192.168.154.254:110 bytes=412 mitre= malicious=false
+2025-08-22 03:53:53 firewall: DDoS src=10.76.157.106 dst=10.144.95.145 dport=3389 proto=SMB pps=25734 mitre=T1499 malicious=true
+2025-08-22 04:25:46 win10-01 DB-Query: Normal DB query; user=nt-authority; host=win10-01 src=50.61.95.69 dst=172.25.29.220:445 bytes=611 mitre= malicious=false
+2025-08-22 04:34:26 dns: query www.example.com from 172.17.19.38 to 172.16.183.6:110 bytes=347 mitre= malicious=false
+10.193.148.250 - - [2025-08-22 05:00:03] "GET http://10.250.126.94/login?id=1&term=<script>alert(1)</script> HTTP/1.1" 403.0 388 "Reflected script tag in query; user=svc-app; host=proxy-1" mitre=T1059.007 malicious=true
+2025-08-22 05:13:29 db-1 FileRead: User opened a document; user=svc-app; host=db-1 src=192.168.170.6 dst=192.168.91.181:80 bytes=1143 mitre= malicious=false
+76.194.58.14 - - [2025-08-22 05:14:18] "GET http://192.168.86.77/api/v1/items?user=alice&term=<script>alert(1)</script> HTTP/1.1" 302.0 403 "Reflected script tag in query; user=yaren; host=db-1" mitre=T1059.007 malicious=true
+192.168.245.238 - - [2025-08-22 05:19:41] "GET http://172.26.99.11/download?file=report.pdf&term=<script>alert(1)</script> HTTP/1.1" 302.0 704 "Reflected script tag in query; user=guest; host=win10-01" mitre=T1059.007 malicious=true
+2025-08-22 05:20:10 win10-01 Ping: ICMP echo request ok; user=nt-authority; host=win10-01 src=10.38.139.133 dst=10.238.177.155:22 bytes=408 mitre= malicious=false
+2025-08-22 05:59:53 sshd[3954]: Accepted password for svc-app from 68.46.199.37 port 59493 ssh2 host=web-1 mitre= malicious=false
+118.148.202.199 - - [2025-08-22 06:51:58] "GET http://192.168.204.197/?sort=asc HTTP/1.1" 403.0 582 "Normal web access; user=dave; host=jump-1" mitre= malicious=false
+2025-08-22 06:55:17 sshd[2324]: Accepted password for guest from 74.62.16.170 port 9296 ssh2 host=db-1 mitre= malicious=false
+2025-08-22 07:13:24 win10-01 DB-Query: Normal DB query; user=nt-authority; host=win10-01 src=10.236.200.24 dst=10.144.12.11:110 bytes=961 mitre= malicious=false
+2025-08-22 07:15:16 sshd[8988]: Accepted password for bob from 192.168.108.49 port 11213 ssh2 host=web-2 mitre= malicious=false
+2025-08-22 07:27:36 dns: query www.example.com from 10.94.230.133 to 172.22.159.118:445 bytes=77 mitre= malicious=false
+2025-08-22 08:23:15 win10-01 HealthCheck: Kubernetes liveness probe; user=bob; host=win10-01 src=145.104.29.106 dst=192.168.241.34:3389 bytes=247 mitre= malicious=false
+2025-08-22 08:40:58 api-1 FileRead: User opened a document; user=svc-db; host=api-1 src=56.216.189.143 dst=172.16.205.178:445 bytes=757 mitre= malicious=false
+10.217.15.117 - - [2025-08-22 08:43:22] "GET http://192.168.224.55/admin?file=report.pdf HTTP/1.1" 302.0 70 "Normal web access; user=guest; host=proxy-1" mitre= malicious=false
+2025-08-22 08:52:03 firewall: DDoS src=10.50.184.217 dst=172.21.244.178 dport=80 proto=SMTP pps=26799 mitre=T1499 malicious=true
+2025-08-22 08:58:17 termservice: Logon failure for user bob from 192.168.221.52 to 192.168.207.142:465 mitre=T1078 malicious=true
+147.120.180.105 - - [2025-08-22 08:59:23] "GET http://10.129.134.166/search?trackid=ae12&login=verify HTTP/1.1" 200.0 291 "User clicked suspicious URL; user=svc-app; host=waf-1" mitre=T1566.002 malicious=true
+2025-08-22 09:04:28 sshd[3897]: Failed password for bob from 10.126.176.247 port 16823 ssh2 host=proxy-1 mitre=T1110 malicious=true
+2025-08-22 09:27:31 powershell: EncodedCommand detected user=alice host=win10-01 src=125.164.133.160 dst=172.24.140.197:3306 mitre=T1059.001 malicious=true
+2025-08-22 09:36:24 sshd[6134]: Failed password for alice from 21.91.90.142 port 54462 ssh2 host=db-1 mitre=T1110 malicious=true
+2025-08-22 09:47:42 proxy-1 HealthCheck: Kubernetes liveness probe; user=root; host=proxy-1 src=68.42.62.213 dst=10.60.154.191:6379 bytes=807 mitre= malicious=false
+2025-08-22 10:12:15 web-2 DB-Query: Normal DB query; user=svc-db; host=web-2 src=51.90.152.14 dst=192.168.104.115:445 bytes=1830 mitre= malicious=false
+2025-08-22 10:21:01 db-1 HealthCheck: Kubernetes liveness probe; user=bob; host=db-1 src=172.29.79.251 dst=192.168.235.119:80 bytes=578 mitre= malicious=false
+2025-08-22 11:14:16 termservice: Logon failure for user bob from 192.168.118.242 to 192.168.122.130:389 mitre=T1078 malicious=true
+2025-08-22 11:30:00 termservice: Logon failure for user bob from 119.188.44.133 to 10.58.156.68:80 mitre=T1078 malicious=true
+2025-08-22 12:13:10 db-1 BackupComplete: Nightly backup finished; user=root; host=db-1 src=94.33.113.182 dst=10.47.77.211:143 bytes=2 mitre= malicious=false
+2025-08-22 12:17:22 proxy-1 Ping: ICMP echo request ok; user=alice; host=proxy-1 src=154.189.80.46 dst=10.157.157.3:445 bytes=1370 mitre= malicious=false
+2025-08-22 12:17:51 dc-1 CryptoMiner: Spike in CPU; pool traffic; user=svc-app; host=dc-1 src=192.168.253.223 dst=192.168.194.117:80 bytes=908 mitre=T1496 malicious=true
+2025-08-22 12:29:31 firewall: PortScan src=172.30.27.42 dst=172.19.230.222 dport=5432 proto=SMTP pps=46582 mitre=T1046 malicious=true
+2025-08-22 12:55:35 db-1 Ping: ICMP echo request ok; user=alice; host=db-1 src=172.24.172.139 dst=172.18.207.21:53 bytes=1905 mitre= malicious=false
+2025-08-22 12:55:36 jump-1 PrivEsc: Token manipulation detected; user=carol; host=jump-1 src=42.51.123.127 dst=10.253.233.29:3306 bytes=773 mitre=T1068 malicious=true
+192.168.50.236 - - [2025-08-22 13:17:18] "GET http://10.95.184.210/admin?page=2 HTTP/1.1" 404.0 227 "Normal web access; user=nt-authority; host=web-1" mitre= malicious=false
+2025-08-22 14:03:56 termservice: Logon failure for user alice from 192.168.97.73 to 172.26.7.95:6379 mitre=T1078 malicious=true
+2025-08-22 14:53:38 api-1 SystemUpdate: Package update completed; user=nt-authority; host=api-1 src=85.116.110.210 dst=10.185.143.94:445 bytes=1443 mitre= malicious=false
+2025-08-22 14:57:42 proxy-1 Ping: ICMP echo request ok; user=svc-app; host=proxy-1 src=26.53.108.11 dst=172.20.62.70:5432 bytes=529 mitre= malicious=false
+2025-08-22 15:00:22 dns: query www.example.com from 148.134.99.96 to 192.168.195.76:3389 bytes=1495 mitre= malicious=false
+2025-08-22 15:25:09 dc-1 BackupComplete: Nightly backup finished; user=guest; host=dc-1 src=10.19.39.242 dst=172.28.129.33:465 bytes=360 mitre= malicious=false
+10.167.202.213 - - [2025-08-22 15:48:54] "GET http://172.22.84.131/download?trackid=ae12&login=verify HTTP/1.1" 302.0 1213 "User clicked suspicious URL; user=eve; host=api-1" mitre=T1566.002 malicious=true
+2025-08-22 15:49:01 termservice: Logon failure for user carol from 10.152.229.37 to 172.18.119.210:389 mitre=T1078 malicious=true
+87.156.165.38 - - [2025-08-22 15:50:32] "GET http://172.20.141.145/api/v1/items?id=1 HTTP/1.1" 401.0 2117 "Normal web access; user=nt-authority; host=waf-1" mitre= malicious=false
+2025-08-22 15:59:11 termservice: Logon failure for user svc-db from 172.19.212.204 to 10.61.169.195:80 mitre=T1078 malicious=true
+2025-08-22 16:08:33 termservice: Logon failure for user yaren from 73.105.83.51 to 172.29.87.5:587 mitre=T1078 malicious=true
+162.120.110.12 - - [2025-08-22 16:18:18] "GET http://192.168.54.253/login?trackid=ae12&login=verify HTTP/1.1" 200 18 "User clicked suspicious URL; user=guest; host=web-2" mitre=T1566.002 malicious=true
+2025-08-22 16:36:29 firewall: PortScan src=110.127.105.182 dst=192.168.178.77 dport=3306 proto=SMTP pps=8801 mitre=T1046 malicious=true
+196.40.69.200 - - [2025-08-22 17:07:07] "GET http://192.168.0.169/login?sort=asc%20OR%201=1-- HTTP/1.1" 401.0 220 "Suspicious SQL keywords in URL; user=alice; host=waf-1" mitre=T1190 malicious=true
+10.207.125.204 - - [2025-08-22 17:26:23] "GET http://192.168.247.179/search?page=2&term=<script>alert(1)</script> HTTP/1.1" 404.0 747 "Reflected script tag in query; user=bob; host=proxy-1" mitre=T1059.007 malicious=true
+2025-08-22 17:42:15 firewall: DDoS src=94.158.195.91 dst=10.195.91.237 dport=6379 proto=SMB pps=5308 mitre=T1499 malicious=true
+2025-08-22 17:49:19 web-1 LateralMovement-SMB: Admin share access attempts; user=root; host=web-1 src=20.105.160.152 dst=10.110.6.129:53 bytes=119 mitre=T1021.002 malicious=true
+2025-08-22 18:18:32 sshd[8406]: Accepted password for root from 172.29.83.79 port 53378 ssh2 host=db-1 mitre= malicious=false
+2025-08-22 19:03:36 jump-1 CryptoMiner: Spike in CPU; pool traffic; user=carol; host=jump-1 src=69.202.34.122 dst=10.194.167.151:110 bytes=990 mitre=T1496 malicious=true
+2025-08-22 19:07:42 firewall: PortScan src=202.45.28.81 dst=172.21.112.34 dport=465 proto=TCP pps=22925 mitre=T1046 malicious=true
+2025-08-22 19:54:49 dns: query www.example.com from 192.168.180.150 to 172.22.165.218:6379 bytes=571 mitre= malicious=false
+2025-08-22 20:27:54 web-1 SMTP-Sent: User sent an email; user=bob; host=web-1 src=192.168.108.91 dst=10.198.179.64:445 bytes=640 mitre= malicious=false
+2025-08-22 20:49:47 waf-1 FileRead: User opened a document; user=guest; host=waf-1 src=128.72.66.160 dst=172.16.199.78:587 bytes=785 mitre= malicious=false
+2025-08-22 20:50:35 waf-1 Ping: ICMP echo request ok; user=alice; host=waf-1 src=192.168.200.130 dst=192.168.133.126:5432 bytes=808 mitre= malicious=false
+2025-08-22 21:14:56 sshd[4430]: Accepted password for dave from 205.179.107.199 port 7836 ssh2 host=dc-1 mitre= malicious=false
+207.135.60.68 - - [2025-08-22 21:15:43] "GET http://10.39.170.125/download?file=report.pdf&term=<script>alert(1)</script> HTTP/1.1" 200 1722 "Reflected script tag in query; user=nt-authority; host=proxy-1" mitre=T1059.007 malicious=true
+2025-08-22 21:23:47 dns: query mfrlgm3dmfrlgm3d.example.com from 143.211.221.195 to 172.18.171.226:143 bytes=360 mitre=T1071.004 malicious=true
+2025-08-22 21:56:34 web-1 HealthCheck: Kubernetes liveness probe; user=eve; host=web-1 src=192.168.141.37 dst=172.21.130.12:465 bytes=128 mitre= malicious=false
+2025-08-22 22:18:19 siem-1 HealthCheck: Kubernetes liveness probe; user=carol; host=siem-1 src=133.40.221.27 dst=172.23.222.50:53 bytes=216 mitre= malicious=false
+2025-08-22 22:22:44 dns: query www.example.com from 192.168.125.152 to 172.18.177.22:8080 bytes=242 mitre= malicious=false
+2025-08-22 22:24:03 proxy-1 BackupComplete: Nightly backup finished; user=nt-authority; host=proxy-1 src=172.17.177.243 dst=10.25.62.72:445 bytes=1508 mitre= malicious=false
+2025-08-22 22:25:29 siem-1 PrivEsc: Token manipulation detected; user=eve; host=siem-1 src=10.121.94.112 dst=10.165.186.37:22 bytes=885 mitre=T1068 malicious=true
+2025-08-22 22:26:03 web-2 BackupComplete: Nightly backup finished; user=nt-authority; host=web-2 src=192.168.93.164 dst=10.202.106.35:22 bytes=176 mitre= malicious=false
+2025-08-22 22:26:33 dns: query www.example.com from 192.168.222.211 to 172.28.222.35:5432 bytes=863 mitre= malicious=false
+2025-08-22 22:27:12 db-1 PrivEsc: Token manipulation detected; user=bob; host=db-1 src=192.168.144.200 dst=10.239.202.198:143 bytes=548 mitre=T1068 malicious=true
+2025-08-22 22:36:11 db-1 Ping: ICMP echo request ok; user=svc-db; host=db-1 src=83.203.202.211 dst=172.19.190.122:445 bytes=1069 mitre= malicious=false
+2025-08-22 22:48:23 proxy-1 HealthCheck: Kubernetes liveness probe; user=svc-app; host=proxy-1 src=29.126.130.185 dst=192.168.88.51:389 bytes=389 mitre= malicious=false
+2025-08-22 22:48:54 siem-1 FileRead: User opened a document; user=svc-app; host=siem-1 src=10.76.236.74 dst=192.168.113.112:8443 bytes=824 mitre= malicious=false
+2025-08-22 22:55:22 dc-1 Ping: ICMP echo request ok; user=guest; host=dc-1 src=74.179.72.79 dst=192.168.208.249:53 bytes=397 mitre= malicious=false
+2025-08-22 23:34:50 dc-1 PrivEsc: Token manipulation detected; user=svc-app; host=dc-1 src=167.33.27.90 dst=172.31.254.88:6379 bytes=1225 mitre=T1068 malicious=true
+2025-08-22 23:41:04 api-1 DB-Query: Normal DB query; user=guest; host=api-1 src=207.83.210.108 dst=192.168.135.8:389 bytes=2352 mitre= malicious=false
+75.215.55.39 - - [2025-08-22 23:54:34] "GET http://192.168.221.208/?page=2&term=<script>alert(1)</script> HTTP/1.1" 404.0 570 "Reflected script tag in query; user=root; host=db-1" mitre=T1059.007 malicious=true
+2025-08-22 23:56:10 api-1 SMTP-Sent: User sent an email; user=svc-db; host=api-1 src=92.204.124.167 dst=192.168.228.92:3306 bytes=1190 mitre= malicious=false

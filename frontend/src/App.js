@@ -2,26 +2,28 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { ThemeProvider } from './context/ThemeContext';
+import { ToastProvider } from './components/ui/toast';
 
-// Import pages (will be created later)
-import Dashboard from './pages/Dashboard';
+// Import pages
 import LogUpload from './pages/LogUpload';
 import Analysis from './pages/Analysis';
-import Settings from './pages/Settings';
+import Reports from './pages/Reports';
 
 function App() {
   return (
     <ThemeProvider>
-      <Router>
-        <div className="App">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/upload" element={<LogUpload />} />
-            <Route path="/analysis" element={<Analysis />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </div>
-      </Router>
+      <ToastProvider>
+        <Router>
+          <div className="App">
+            <Routes>
+              <Route path="/" element={<LogUpload />} />
+              <Route path="/upload" element={<LogUpload />} />
+              <Route path="/analysis" element={<Analysis />} />
+              <Route path="/reports" element={<Reports />} />
+            </Routes>
+          </div>
+        </Router>
+      </ToastProvider>
     </ThemeProvider>
   );
 }

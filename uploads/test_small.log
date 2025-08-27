@@ -1,0 +1,10 @@
+2024-01-15 10:30:45 INFO User login successful - user_id: 123
+2024-01-15 10:31:02 ERROR Database connection failed - timeout after 30s
+2024-01-15 10:31:15 WARNING High memory usage detected - 95% utilized
+2024-01-15 10:31:30 CRITICAL System failure - emergency shutdown initiated
+2024-01-15 10:32:00 INFO System restart completed successfully
+2024-01-15 10:32:15 INFO Application started on port 8080
+2024-01-15 10:32:30 ERROR Failed to load configuration file
+2024-01-15 10:33:00 INFO User logout - user_id: 123
+2024-01-15 10:33:15 WARNING Disk space low - 85% full
+2024-01-15 10:33:30 INFO Backup process completed

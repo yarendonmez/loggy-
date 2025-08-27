@@ -10,10 +10,11 @@ Bu proje, sistem yöneticilerinin manuel olarak incelemek zorunda kaldığı bü
 ## 🚀 Özellikler
 
 - ✅ CSV / LOG dosyası yükleme
-- ✅ AI destekli anomali tespiti (RandomForest + TF-IDF)
-- ✅ Kritik hata uyarısı
+- ✅ LLM destekli akıllı anomali tespiti (Llama 3.2)
+- ✅ Kritik hata uyarısı ve detaylı açıklamalar
 - ✅ Web arayüzü ile logları inceleme ve filtreleme
 - ✅ Kurum içi dağıtım (offline kullanım)
+- 🆕 Doğal dil işleme ile gelişmiş log analizi
 
 ---
 
@@ -39,33 +40,140 @@ Düzenle
 
 ---
 
-## 🛠️ Kurulum
+## 🛠️ Kurulum ve Çalıştırma
 
-### 🐳 Docker ile çalıştırmak için:
+### ⚡ Hızlı Başlangıç (3 dakikada çalışır!)
 
-> Minimum: Docker + Docker Compose yüklü olmalı  
-> Test edildiği ortam: Ubuntu 22.04 / WSL / Windows 11 + Docker Desktop
+#### **1. Ollama Kurulumu (AI Motor)**
+
+**Windows:**
+```powershell
+# PowerShell'i yönetici olarak açın
+winget install ollama
+# veya
+# https://ollama.ai/download adresinden indirin
+```
+
+**macOS/Linux:**
+```bash
+curl -fsSL https://ollama.ai/install.sh | sh
+```
+
+#### **2. AI Modelini İndirin**
+```bash
+# Llama 3.2 modelini indirin (2-3 dakika sürer)
+ollama pull llama3.2
+
+# Ollama servisini başlatın
+ollama serve
+```
+
+#### **3. Python Environment Hazırlığı**
+```bash
+# Python 3.11 kullanmanız önerilir (uyumluluk için)
+conda create -n loggy-py311 python=3.11 -y
+conda activate loggy-py311
+```
+
+#### **4. Projeyi Çalıştırın**
+
+**Otomatik Başlatma (Windows):**
+```bash
+# Proje dizinine gidin
+cd C:\path\to\Loggy
+
+# Tek komutla başlatın
+start.bat
+```
+
+**Manuel Başlatma:**
+```bash
+# Backend'i başlatın
+cd backend
+pip install -r requirements.txt
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+# Yeni terminal'de frontend'i başlatın
+cd frontend
+npm install --legacy-peer-deps
+npm start
+```
+### 🔍 **Sistem Durumu Kontrolü**
 
 ```bash
-git clone https://github.com/kullanici/log-analyzer.git
-cd log-analyzer
+# 1. Ollama çalışıyor mu?
+ollama --version
+ollama list  # Modeller listelensin
 
-# Servisleri başlat (backend + frontend)
-docker-compose up --build
-Uygulama: http://localhost:3000
+# 2. Backend çalışıyor mu?
+curl http://localhost:8000/health
+# Yanıt: {"status":"healthy","database":"connected","llm":"ready","model":"llama3.2"}
 
-API: http://localhost:8000/docs (FastAPI Swagger arayüzü)
+# 3. Frontend çalışıyor mu?
+# http://localhost:3000 adresini tarayıcıda açın
+```
 
-📊 Nasıl Kullanılır?
-Web arayüzüne gidin → localhost:3000
+### 🌐 **Erişim Adresleri**
 
-.csv log dosyanızı yükleyin (örnek dosya: /data/example.csv)
+- **Frontend:** http://localhost:3000
+- **Backend API:** http://localhost:8000
+- **API Dokümantasyonu:** http://localhost:8000/docs
+- **Health Check:** http://localhost:8000/health
 
-“Analizi Başlat” butonuna tıklayın
+### 🔧 **Sorun Giderme**
 
-Sistem, AI modeliyle anomalileri tespit edip kırmızı olarak işaretleyecek
+**Problem: "Ollama bulunamadı"**
+```bash
+# PATH'e ekleyin
+$env:PATH += ";C:\Users\$env:USERNAME\AppData\Local\Programs\Ollama"
+```
 
-Arama ve filtreleme yaparak detaylara inebilirsiniz
+**Problem: "Model bulunamadı"**
+```bash
+ollama pull llama3.2  # Modeli yeniden indirin
+ollama serve          # Servisi başlatın
+```
+
+**Problem: "Port 8000 kullanımda"**
+```bash
+# Çalışan Python processlerini durdurun
+tasklist | findstr python
+taskkill /PID [PID_NUMBER] /F
+```
+
+**Problem: "Frontend npm hatası"**
+```bash
+cd frontend
+rm -rf node_modules package-lock.json
+npm install --legacy-peer-deps
+```
+
+### 📊 **Nasıl Kullanılır?**
+
+1. **Web arayüzüne gidin:** http://localhost:3000
+2. **Log dosyanızı yükleyin:** `.csv`, `.log` veya `.txt` formatında
+3. **Analizi başlatın:** "Analiz Et" butonuna tıklayın
+4. **Sonuçları inceleyin:** LLM otomatik olarak anomalileri tespit edecek
+
+### 🧪 **Hızlı Test**
+
+```bash
+# Test scriptini çalıştırın
+python test_llm.py
+
+# Örnek çıktı:
+# ✅ Analiz başarılı!
+# 📊 Toplam satır: 5
+# ⚠️  Anomali sayısı: 2
+# 🚨 Kritik sayısı: 2
+# 📈 Anomali oranı: 40.00%
+```
+
+### 📁 **Örnek Log Dosyaları**
+
+- `data/sample_logs.csv` - Test için hazır log dosyası
+- Desteklenen formatlar: CSV, LOG, TXT
+- Maksimum dosya boyutu: 50MB
 
 🧪 Test Log Verisi
 LogPai HDFS Dataset
@@ -86,7 +194,7 @@ Kullanıcı oturumu gerektirmez (tek kullanıcı için MVP)
 🧩 Teknolojiler
 Backend: Python, FastAPI
 
-ML: scikit-learn, pandas, TF-IDF + RandomForest
+AI/LLM: Ollama + Llama 3.2 (yerel, ücretsiz)
 
 Frontend: React.js, TailwindCSS, Shadcn/UI
 

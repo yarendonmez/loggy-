@@ -3,12 +3,17 @@ import { Upload, FileText, AlertCircle, CheckCircle, Download } from 'lucide-rea
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
+import { useToast } from '../components/ui/toast';
 import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const LogUpload = () => {
   const [dragActive, setDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('idle'); // idle, uploading, success, error
+
+  const { addToast } = useToast();
+  const navigate = useNavigate();
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -36,13 +41,23 @@ const LogUpload = () => {
     const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
     
     if (!allowedTypes.includes(fileExtension)) {
-      alert('Sadece .csv, .log ve .txt dosyaları desteklenir.');
+      addToast({
+        type: 'error',
+        title: 'Geçersiz Dosya Tipi',
+        message: 'Sadece .csv, .log ve .txt dosyaları desteklenir.',
+        duration: 5000
+      });
       return;
     }
 
     // Dosya boyutu kontrolü (50MB)
     if (file.size > 50 * 1024 * 1024) {
-      alert('Dosya boyutu 50MB\'dan küçük olmalıdır.');
+      addToast({
+        type: 'error',
+        title: 'Dosya Çok Büyük',
+        message: 'Dosya boyutu 50MB\'dan küçük olmalıdır.',
+        duration: 5000
+      });
       return;
     }
 
@@ -73,16 +88,42 @@ const LogUpload = () => {
         const result = await response.json();
         console.log('Upload success:', result);
         setUploadStatus('success');
+
+        
+        addToast({
+          type: 'success',
+          title: 'Dosya Yüklendi!',
+          message: `${result.filename} başarıyla yüklendi. Analiz başlatılıyor...`,
+          duration: 3000
+        });
+
+        // 2 saniye sonra analiz sayfasına yönlendir
+        setTimeout(() => {
+          navigate(`/analysis?fileId=${result.file_id}`);
+        }, 2000);
+        
       } else {
         const error = await response.json();
         console.error('Upload error:', error);
         setUploadStatus('error');
-        alert(`Yükleme hatası: ${error.detail}`);
+        
+        addToast({
+          type: 'error',
+          title: 'Yükleme Başarısız',
+          message: error.detail || 'Dosya yüklenirken bir hata oluştu',
+          duration: 5000
+        });
       }
     } catch (error) {
       console.error('Upload error:', error);
       setUploadStatus('error');
-      alert('Dosya yükleme sırasında bir hata oluştu');
+      
+      addToast({
+        type: 'error',
+        title: 'Bağlantı Hatası',
+        message: 'Sunucuya bağlanırken bir hata oluştu',
+        duration: 5000
+      });
     }
   };
 
@@ -144,11 +185,13 @@ const LogUpload = () => {
                     className="hidden"
                     id="file-input"
                   />
-                  <label htmlFor="file-input">
-                    <Button variant="outline" className="cursor-pointer">
-                      Dosya Seç
-                    </Button>
-                  </label>
+                  <Button 
+                    variant="outline" 
+                    className="cursor-pointer"
+                    onClick={() => document.getElementById('file-input').click()}
+                  >
+                    Dosya Seç
+                  </Button>
                 </div>
 
                 {/* Selected File */}
@@ -282,7 +325,24 @@ const LogUpload = () => {
                 <p className="text-sm text-gray-600 mb-3">
                   Test için örnek log dosyası indirin
                 </p>
-                <Button variant="outline" className="w-full">
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => {
+                    // Örnek CSV dosyasını indir
+                    const link = document.createElement('a');
+                    link.href = '/sample_logs.csv';
+                    link.download = 'sample_logs.csv';
+                    link.click();
+                    
+                    addToast({
+                      type: 'info',
+                      title: 'Örnek Dosya',
+                      message: 'Örnek log dosyası indiriliyor...',
+                      duration: 3000
+                    });
+                  }}
+                >
                   <Download className="mr-2 h-4 w-4" />
                   Örnek CSV İndir
                 </Button>

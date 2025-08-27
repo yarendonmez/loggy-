@@ -4,8 +4,8 @@ from sqlalchemy.orm import sessionmaker
 import os
 from datetime import datetime
 
-# Database URL
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./data/loggy.db")
+# Database URL - Ana dizinden çalıştırılacak şekilde ayarlandı
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./data/loggy_new.db")
 
 # Create engine
 engine = create_engine(
@@ -29,8 +29,9 @@ class LogFile(Base):
     upload_date = Column(DateTime, default=datetime.utcnow)
     status = Column(String, default="uploaded")  # uploaded, processing, completed, error
     total_lines = Column(Integer, default=0)
-    anomaly_count = Column(Integer, default=0)
+    anomaly_count = Column(Integer, nullable=True)  # NULL = not analyzed, number = analyzed
     file_path = Column(String)
+    security_report_json = Column(Text, nullable=True)  # Güvenlik raporu JSON
 
 class LogEntry(Base):
     __tablename__ = "log_entries"
@@ -53,10 +54,12 @@ class AnalysisResult(Base):
     log_file_id = Column(Integer, index=True)
     analysis_date = Column(DateTime, default=datetime.utcnow)
     model_version = Column(String)
-    total_anomalies = Column(Integer, default=0)
-    critical_anomalies = Column(Integer, default=0)
+    total_lines = Column(Integer, default=0)  # Toplam satır sayısı
+    anomaly_count = Column(Integer, default=0)  # Anomali sayısı
+    critical_count = Column(Integer, default=0)  # Kritik anomali sayısı
+    anomaly_rate = Column(Float, default=0.0)  # Anomali oranı
     processing_time = Column(Float)
-    model_accuracy = Column(Float, nullable=True)
+    results_json = Column(Text)  # JSON formatında sonuçlar
 
 # Dependency to get database session
 def get_db():

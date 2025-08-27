@@ -14,7 +14,7 @@ services:
       - ./models:/app/models
     environment:
       - DATABASE_URL=sqlite:///./data/loggy.db
-      - MODEL_PATH=/app/models/anomaly_detector.pkl
+      - OLLAMA_URL=http://host.docker.internal:11434
     depends_on:
       - frontend
     networks:
