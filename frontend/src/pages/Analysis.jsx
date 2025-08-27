@@ -17,6 +17,7 @@ const Analysis = () => {
   const [analysisResults, setAnalysisResults] = useState(null);
   const [searchFilter, setSearchFilter] = useState('');
   const [severityFilter, setSeverityFilter] = useState('all');
+  const [analysisType, setAnalysisType] = useState('fast'); // fast, detailed
   const { addToast } = useToast();
 
 
@@ -107,8 +108,8 @@ const Analysis = () => {
         setProgress(prev => Math.min(prev + Math.random() * 15, 90));
       }, 500);
 
-      // API çağrısı
-      const response = await fetch(`http://localhost:8000/api/analyze/${fileId}`, {
+      // API çağrısı (analiz türü ile)
+      const response = await fetch(`http://localhost:8000/api/analyze/${fileId}?analysis_type=${analysisType}`, {
         method: 'POST'
       });
 
@@ -211,10 +212,47 @@ const Analysis = () => {
                 {fileData ? `${fileData.filename} dosyasını analiz etmek için başlat butonuna tıklayın` : 'Log dosyanızı analiz etmek için başlat butonuna tıklayın'}
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
+              {/* Analiz Türü Seçimi */}
+              <div className="space-y-3">
+                <label className="text-sm font-medium text-gray-700">Analiz Türü:</label>
+                <div className="grid grid-cols-2 gap-3">
+                  <div 
+                    className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      analysisType === 'fast' 
+                        ? 'border-blue-500 bg-blue-50 text-blue-700' 
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                    onClick={() => setAnalysisType('fast')}
+                  >
+                    <div className="text-center">
+                      <div className="font-medium">⚡ Hızlı Analiz</div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        ~300 log | 1-2 dk
+                      </div>
+                    </div>
+                  </div>
+                  <div 
+                    className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      analysisType === 'detailed' 
+                        ? 'border-green-500 bg-green-50 text-green-700' 
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                    onClick={() => setAnalysisType('detailed')}
+                  >
+                    <div className="text-center">
+                      <div className="font-medium">🔍 Detaylı Analiz</div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        Tüm loglar | 3-10 dk
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
               <Button onClick={startAnalysis} size="lg" className="w-full" disabled={!fileId || analysisStatus === 'running'}>
                 <Activity className="mr-2 h-4 w-4" />
-                Analizi Başlat
+                {analysisType === 'fast' ? '⚡ Hızlı Analizi Başlat' : '🔍 Detaylı Analizi Başlat'}
               </Button>
             </CardContent>
           </Card>
@@ -304,21 +342,29 @@ const Analysis = () => {
                   <Clock className="h-4 w-4 text-blue-600" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{analysisData?.anomaly_rate ? `%${analysisData.anomaly_rate.toFixed(1)}` : '0%'}</div>
+                  <div className="text-2xl font-bold">
+                    {Number.isFinite(analysisData?.anomaly_rate) ? `%${analysisData.anomaly_rate.toFixed(1)}` : '—'}
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     Toplam oranı
                   </p>
                 </CardContent>
               </Card>
+
             </div>
 
             {/* Summary Info */}
             {analysisData && (
               <Card className="mb-8">
                 <CardHeader>
-                  <CardTitle>Analiz Özeti</CardTitle>
+                  <CardTitle>
+                    Analiz Özeti 
+                    <Badge className="ml-2" variant={analysisType === 'fast' ? 'default' : 'secondary'}>
+                      {analysisType === 'fast' ? '⚡ Hızlı' : '🔍 Detaylı'}
+                    </Badge>
+                  </CardTitle>
                   <CardDescription>
-                    Tespit edilen anomalilerin genel durumu
+                    {analysisType === 'fast' ? 'Hızlı analiz ile önemli anomaliler tespit edildi' : 'Detaylı analiz ile kapsamlı tarama yapıldı'}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

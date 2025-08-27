@@ -197,35 +197,55 @@ Anomali kriterleri: ERROR, CRITICAL, FAIL, EXCEPTION kelimelerini ara."""
     def fallback_parsing(self, text: str) -> Dict:
         """JSON parse edilemezse basit text parsing"""
         lines = text.split('\n')
+        results = []
         anomaly_count = 0
         critical_count = 0
         
-        # Basit keyword arama
-        for line in lines:
-            if any(word in line.lower() for word in ['error', 'critical', 'fail', 'exception']):
-                anomaly_count += 1
-                if 'critical' in line.lower():
-                    critical_count += 1
-            
-            return {
-            "results": [
-                {
-                    "line_number": 1,
-                    "is_anomaly": anomaly_count > 0,
-                    "severity": "critical" if critical_count > 0 else "warning" if anomaly_count > 0 else "normal",
-                    "anomaly_type": "sistem_hatası",
-                    "confidence": 0.7,
-                    "explanation": f"{anomaly_count} potansiyel anomali tespit edildi"
-                }
-            ],
+        # Her satırı kontrol et
+        for i, line in enumerate(lines, 1):
+            if line.strip():  # Boş satırları atla
+                is_anomaly = False
+                severity = "info"
+                explanation = "Normal log"
+                
+                line_lower = line.lower()
+                
+                # Anomali kontrolü
+                if any(word in line_lower for word in ['error', 'critical', 'fail', 'exception', 'timeout']):
+                    is_anomaly = True
+                    anomaly_count += 1
+                    
+                    if 'critical' in line_lower or 'fatal' in line_lower:
+                        severity = "critical"
+                        critical_count += 1
+                        explanation = "Kritik hata tespit edildi"
+                    elif 'error' in line_lower or 'exception' in line_lower:
+                        severity = "high"
+                        explanation = "Hata tespit edildi"
+                    else:
+                        severity = "medium"
+                        explanation = "Potansiyel sorun tespit edildi"
+                
+                results.append({
+                    "line_number": i,
+                    "is_anomaly": is_anomaly,
+                    "severity": severity,
+                    "anomaly_type": "keyword_detection" if is_anomaly else "normal",
+                    "confidence": 0.8 if is_anomaly else 0.9,
+                    "explanation": explanation,
+                    "log_content": line.strip()
+                })
+        
+        return {
+            "results": results,
             "summary": {
-                "total_lines": 1,
+                "total_lines": len(results),
                 "anomaly_count": anomaly_count,
                 "critical_count": critical_count
             }
         }
     
-    def predict(self, log_lines: List[str]) -> Dict:
+    def predict(self, log_lines: List[str], analysis_type: str = "fast") -> Dict:
         """Log satırları için anomali tahmini yap"""
         try:
             if not log_lines:
@@ -233,11 +253,17 @@ Anomali kriterleri: ERROR, CRITICAL, FAIL, EXCEPTION kelimelerini ara."""
             
             logger.info(f"LLM ile anomali analizi başlıyor... {len(log_lines)} satır")
             
-            # Büyük dosyalar için akıllı sampling
-            if len(log_lines) > 500:
-                logger.info(f"Büyük dosya ({len(log_lines)} satır), akıllı sampling uygulanıyor")
+            # Analiz türüne göre sampling
+            if analysis_type == "fast" and len(log_lines) > 500:
+                logger.info(f"Hızlı analiz: Büyük dosya ({len(log_lines)} satır), akıllı sampling uygulanıyor")
                 log_lines = self.smart_sample_logs(log_lines, target_size=300)
                 logger.info(f"Sampling sonrası: {len(log_lines)} satır")
+            elif analysis_type == "detailed" and len(log_lines) > 2000:
+                logger.info(f"Detaylı analiz: Çok büyük dosya ({len(log_lines)} satır), sınırlı sampling uygulanıyor")
+                log_lines = self.smart_sample_logs(log_lines, target_size=1500)
+                logger.info(f"Sampling sonrası: {len(log_lines)} satır")
+            else:
+                logger.info(f"Analiz türü: {analysis_type}, Sampling uygulanmıyor ({len(log_lines)} satır)")
             
             # Batch işleme (küçük batch size)
             batch_size = 20
@@ -269,19 +295,58 @@ Anomali kriterleri: ERROR, CRITICAL, FAIL, EXCEPTION kelimelerini ara."""
                 # Batch sonuçlarını ekle
                 if "results" in parsed_result:
                     for result in parsed_result["results"]:
-                        # Line number'ları düzelt
-                        result["line_number"] = i + result["line_number"]
-                        result["log_content"] = batch[result["line_number"] - i - 1] if result["line_number"] - i - 1 < len(batch) else ""
+                        # Line number'ları düzelt (1-based to 0-based)
+                        batch_line_idx = result.get("line_number", 1) - 1
+                        global_line_number = i + batch_line_idx + 1
+                        
+                        result["line_number"] = global_line_number
+                        result["log_content"] = batch[batch_line_idx] if 0 <= batch_line_idx < len(batch) else ""
                         
                         if result.get("is_anomaly", False):
                             total_anomalies += 1
-                            if result.get("severity") == "critical":
+                            
+                            # MITRE teknik ekle
+                            mitre_technique = self.get_mitre_technique(
+                                result.get("log_content", ""), 
+                                result.get("explanation", "")
+                            )
+                            result["mitre_technique"] = mitre_technique
+                            
+                            # Enhanced severity hesaplama
+                            enhanced_severity = self.calculate_enhanced_severity(
+                                result.get("log_content", ""),
+                                result.get("explanation", ""),
+                                mitre_technique
+                            )
+                            result["severity"] = enhanced_severity  # Override original severity
+                            
+                            # Critical count'u enhanced severity'ye göre hesapla
+                            if enhanced_severity == "critical":
                                 total_critical += 1
+                            
+                            # Aksiyon önerileri
+                            actions = self.generate_action_recommendations(
+                                mitre_technique, 
+                                enhanced_severity,
+                                result.get("log_content", "")
+                            )
+                            result["recommended_actions"] = actions
                         
                         all_results.append(result)
             
-            # Kapsamlı rapor oluştur
-            report = self.generate_security_report(all_results, log_lines)
+            # Güvenli rapor oluştur (hata ayıklama için basitleştirildi)
+            try:
+                report = self.generate_security_report(all_results, log_lines)
+            except Exception as e:
+                logger.error(f"Security report hatası: {str(e)}")
+                report = {"error": "Security report oluşturulamadı"}
+            
+            # Güvenli confidence score hesapla
+            try:
+                confidence_score = self.calculate_confidence_score(all_results)
+            except Exception as e:
+                logger.error(f"Confidence score hatası: {str(e)}")
+                confidence_score = 0.5
             
             return {
                 "status": "success",
@@ -289,6 +354,7 @@ Anomali kriterleri: ERROR, CRITICAL, FAIL, EXCEPTION kelimelerini ara."""
                 "anomaly_count": total_anomalies,
                 "critical_count": total_critical,
                 "anomaly_rate": total_anomalies / len(log_lines) if len(log_lines) > 0 else 0,
+                "confidence_score": confidence_score,
                 "results": all_results,
                 "security_report": report
             }
@@ -313,6 +379,226 @@ Anomali kriterleri: ERROR, CRITICAL, FAIL, EXCEPTION kelimelerini ara."""
     def load_model(self) -> bool:
         """LLM hazır mı kontrol et"""
         return self.is_ready
+    
+    def get_mitre_technique(self, log_content: str, explanation: str) -> Dict:
+        """Log içeriğine göre MITRE ATT&CK tekniği belirle"""
+        # None kontrolü ekle
+        content_lower = (log_content or "").lower()
+        explanation_lower = (explanation or "").lower()
+        
+        # MITRE ATT&CK teknik mapping'i
+        mitre_patterns = {
+            "T1110": {  # Brute Force
+                "name": "Brute Force",
+                "tactic": "Credential Access",
+                "patterns": ["failed login", "authentication failed", "invalid password", "login attempt", "brute force"]
+            },
+            "T1190": {  # Exploit Public-Facing Application
+                "name": "Exploit Public-Facing Application", 
+                "tactic": "Initial Access",
+                "patterns": ["sql injection", "xss", "code injection", "exploit", "vulnerability"]
+            },
+            "T1083": {  # File and Directory Discovery
+                "name": "File and Directory Discovery",
+                "tactic": "Discovery", 
+                "patterns": ["directory traversal", "file access", "path disclosure", "directory listing"]
+            },
+            "T1005": {  # Data from Local System
+                "name": "Data from Local System",
+                "tactic": "Collection",
+                "patterns": ["data exfil", "sensitive data", "file download", "data extraction"]
+            },
+            "T1498": {  # Network Denial of Service
+                "name": "Network Denial of Service",
+                "tactic": "Impact",
+                "patterns": ["ddos", "dos attack", "flood", "overload", "exhausted"]
+            },
+            "T1055": {  # Process Injection
+                "name": "Process Injection",
+                "tactic": "Defense Evasion",
+                "patterns": ["malware", "trojan", "virus", "suspicious process", "injection"]
+            },
+            "T1078": {  # Valid Accounts
+                "name": "Valid Accounts", 
+                "tactic": "Persistence",
+                "patterns": ["privilege escalation", "unauthorized access", "admin access", "elevated privileges"]
+            },
+            "T1046": {  # Network Service Scanning
+                "name": "Network Service Scanning",
+                "tactic": "Discovery",
+                "patterns": ["port scan", "network scan", "service discovery", "reconnaissance"]
+            }
+        }
+        
+        # Pattern matching
+        for technique_id, technique_info in mitre_patterns.items():
+            for pattern in technique_info["patterns"]:
+                if pattern in content_lower or pattern in explanation_lower:
+                    return {
+                        "technique_id": technique_id,
+                        "technique_name": technique_info["name"],
+                        "tactic": technique_info["tactic"],
+                        "confidence": 0.8
+                    }
+        
+        return {
+            "technique_id": "T1000", 
+            "technique_name": "Unknown",
+            "tactic": "Unknown",
+            "confidence": 0.3
+        }
+    
+    def calculate_enhanced_severity(self, log_content: str, explanation: str, mitre_technique: Dict) -> str:
+        """Gelişmiş severity hesaplama - MITRE teknik + etki alanına göre"""
+        # None kontrolü ekle
+        content_lower = (log_content or "").lower()
+        explanation_lower = (explanation or "").lower()
+        technique_id = mitre_technique.get("technique_id", "")
+        
+        severity_score = 0
+        
+        # MITRE tekniğine göre base severity
+        critical_techniques = ["T1190", "T1055", "T1005"]  # Exploit, Malware, Data Exfil
+        high_techniques = ["T1110", "T1498", "T1078"]      # Brute Force, DDoS, Privilege Esc
+        medium_techniques = ["T1083", "T1046"]              # Discovery, Scanning
+        
+        if technique_id in critical_techniques:
+            severity_score += 40
+        elif technique_id in high_techniques:
+            severity_score += 25
+        elif technique_id in medium_techniques:
+            severity_score += 10
+        
+        # Keyword-based severity boost
+        critical_keywords = ["critical", "breach", "compromise", "malware", "exfiltration", "injection"]
+        high_keywords = ["failed", "denied", "attack", "intrusion", "unauthorized", "exploit"]
+        medium_keywords = ["warning", "error", "timeout", "blocked"]
+        
+        for keyword in critical_keywords:
+            if keyword in content_lower or keyword in explanation_lower:
+                severity_score += 30
+                break
+        
+        for keyword in high_keywords:
+            if keyword in content_lower or keyword in explanation_lower:
+                severity_score += 20
+                break
+                
+        for keyword in medium_keywords:
+            if keyword in content_lower or keyword in explanation_lower:
+                severity_score += 10
+                break
+        
+        # Frequency/rate based adjustment (multiple events)
+        if any(freq_word in explanation_lower for freq_word in ["multiple", "repeated", "frequent", "burst"]):
+            severity_score += 15
+        
+        # System impact assessment
+        if any(sys_word in content_lower for sys_word in ["database", "server", "admin", "root", "system"]):
+            severity_score += 10
+        
+        # Final severity determination
+        if severity_score >= 60:
+            return "critical"
+        elif severity_score >= 40:
+            return "high"  
+        elif severity_score >= 20:
+            return "medium"
+        else:
+            return "low"
+    
+    def generate_action_recommendations(self, mitre_technique: Dict, severity: str, log_content: str) -> List[str]:
+        """MITRE tekniğine göre aksiyon önerileri oluştur"""
+        recommendations = []
+        technique_id = mitre_technique.get("technique_id", "")
+        
+        # Genel öneriler
+        if severity in ["critical", "high"]:
+            recommendations.append("🚨 Acil müdahale gerekli - SOC ekibini bilgilendir")
+        
+        # Teknik-spesifik öneriler
+        if technique_id == "T1110":  # Brute Force
+            recommendations.extend([
+                "🔒 Kaynak IP adresini geçici olarak blokla",
+                "👤 Hedef kullanıcı hesabını geçici kilitle", 
+                "📊 Son 24 saatteki benzer denemeleri incele",
+                "🛡️ Rate limiting kurallarını güçlendir"
+            ])
+        elif technique_id == "T1190":  # Exploit
+            recommendations.extend([
+                "🔧 Uygulama güvenlik yamalarını kontrol et",
+                "🚫 İlgili endpoint'i geçici devre dışı bırak",
+                "🔍 WAF kurallarını güncelle",
+                "📝 Penetrasyon testi planla"
+            ])
+        elif technique_id == "T1498":  # DDoS
+            recommendations.extend([
+                "🛡️ DDoS koruma servisini aktifleştir",
+                "📊 Trafik analizi yap",
+                "🚫 Kaynak IP aralığını blokla",
+                "⚡ Yük dengeleyici ayarlarını optimize et"
+            ])
+        elif technique_id == "T1055":  # Malware
+            recommendations.extend([
+                "🦠 Antivirüs taraması başlat",
+                "🔒 Etkilenen sistemi izole et",
+                "💾 Sistem imajı yedekle",
+                "🔍 IOC'leri threat intelligence ile karşılaştır"
+            ])
+        elif technique_id == "T1078":  # Privilege Escalation
+            recommendations.extend([
+                "👤 Kullanıcı yetkilerini gözden geçir",
+                "🔐 Privileged account'ları audit et",
+                "📝 Access control matrix'i güncelle",
+                "🔍 Son erişim loglarını incele"
+            ])
+        else:
+            recommendations.extend([
+                "📊 Benzer olayları korelasyon analizi ile incele",
+                "📝 Incident response playbook'u uygula",
+                "🔍 Forensik analiz için logları koru"
+            ])
+        
+        return recommendations
+    
+    def calculate_confidence_score(self, analysis_results: List[Dict]) -> float:
+        """Analiz güven skoru hesapla (eşleşen kural/pattern sayısına göre)"""
+        if not analysis_results:
+            return 0.0
+        
+        # Anomali tespitlerinin güven skorlarını hesapla
+        total_confidence = 0
+        valid_results = 0
+        
+        for result in analysis_results:
+            if result.get("is_anomaly"):
+                # Açıklama detayına göre güven skoru hesapla
+                explanation = result.get("explanation", "").lower()
+                confidence = 50  # Base confidence
+                
+                # Specific patterns increase confidence
+                if any(keyword in explanation for keyword in ["error", "failed", "denied", "blocked"]):
+                    confidence += 20
+                if any(keyword in explanation for keyword in ["attack", "malware", "intrusion", "breach"]):
+                    confidence += 25
+                if any(keyword in explanation for keyword in ["critical", "severe", "high"]):
+                    confidence += 15
+                
+                # Severity based confidence adjustment
+                severity = result.get("severity", "medium")
+                if severity == "critical":
+                    confidence += 10
+                elif severity == "high":
+                    confidence += 5
+                
+                total_confidence += min(confidence, 100)
+                valid_results += 1
+            else:
+                # Normal logs have higher confidence
+                total_confidence += 85
+                valid_results += 1
+        
+        return round(total_confidence / valid_results, 1) if valid_results > 0 else 0.0
     
     def generate_security_report(self, analysis_results: List[Dict], log_lines: List[str]) -> Dict:
         """Kapsamlı güvenlik analiz raporu oluştur"""

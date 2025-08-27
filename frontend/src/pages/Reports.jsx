@@ -6,7 +6,8 @@ import {
   Clock,
   Download,
   Eye,
-  Search
+  Search,
+  Activity
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
@@ -262,6 +263,10 @@ const Reports = () => {
 // Rapor detay bileşeni
 const ReportDetail = ({ report, onBack }) => {
   const securityReport = report.security_report;
+  const [analysisResults, setAnalysisResults] = useState([]);
+  const [loadingAnalysis, setLoadingAnalysis] = useState(true);
+  const [activeTab, setActiveTab] = useState('security');
+  const { addToast } = useToast();
   
   const getRiskBadge = (riskLevel) => {
     const colors = {
@@ -273,6 +278,27 @@ const ReportDetail = ({ report, onBack }) => {
     };
     return colors[riskLevel] || 'bg-gray-500 text-white';
   };
+
+  // Analiz sonuçlarını yükle
+  useEffect(() => {
+    const loadAnalysisResults = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/api/analysis/${report.id}/results`);
+        if (response.ok) {
+          const data = await response.json();
+          setAnalysisResults(data.results || []);
+        } else {
+          console.log('No analysis results found for this report');
+        }
+      } catch (error) {
+        console.error('Analysis results load error:', error);
+      } finally {
+        setLoadingAnalysis(false);
+      }
+    };
+
+    loadAnalysisResults();
+  }, [report.id]);
   
   return (
     <div className="min-h-screen bg-gray-50">
@@ -294,6 +320,35 @@ const ReportDetail = ({ report, onBack }) => {
           </div>
         </div>
 
+        {/* Tab Navigation */}
+        <div className="mb-6 border-b border-gray-200">
+          <nav className="-mb-px flex space-x-8">
+            <button
+              onClick={() => setActiveTab('security')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'security'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <Shield className="h-4 w-4 inline mr-2" />
+              Güvenlik Raporu
+            </button>
+            <button
+              onClick={() => setActiveTab('analysis')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'analysis'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <Activity className="h-4 w-4 inline mr-2" />
+              Analiz Sonuçları ({analysisResults.length})
+            </button>
+          </nav>
+        </div>
+
+        {activeTab === 'security' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Summary */}
           <div className="lg:col-span-1">
@@ -430,6 +485,123 @@ const ReportDetail = ({ report, onBack }) => {
             </Card>
           </div>
         </div>
+        )}
+
+        {activeTab === 'analysis' && (
+        <div className="space-y-6">
+          {loadingAnalysis ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+              <p className="mt-4 text-gray-600">Analiz sonuçları yükleniyor...</p>
+            </div>
+          ) : analysisResults.length === 0 ? (
+            <div className="text-center py-12">
+              <Activity className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Analiz sonucu bulunamadı</h3>
+              <p className="text-gray-600">Bu rapor için detaylı analiz sonuçları mevcut değil</p>
+            </div>
+          ) : (
+            <>
+              {/* Analysis Summary */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>📊 Analiz Özeti</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-600">
+                        {analysisResults.length}
+                      </div>
+                      <div className="text-sm text-gray-600">Toplam Log</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-red-600">
+                        {analysisResults.filter(r => r.is_anomaly).length}
+                      </div>
+                      <div className="text-sm text-gray-600">Anomali</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-orange-600">
+                        {analysisResults.filter(r => r.severity === 'critical').length}
+                      </div>
+                      <div className="text-sm text-gray-600">Kritik</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-yellow-600">
+                        {analysisResults.length > 0 ? Math.round((analysisResults.filter(r => r.is_anomaly).length / analysisResults.length) * 100) + '%' : '—'}
+                      </div>
+                      <div className="text-sm text-gray-600">Anomali Oranı</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Analysis Results Table */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>🔍 Detaylı Analiz Sonuçları</CardTitle>
+                  <CardDescription>
+                    Her log satırının analiz sonucu ve açıklaması
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-2 px-2 font-medium">Durum</th>
+                          <th className="text-left py-2 px-2 font-medium">Seviye</th>
+                          <th className="text-left py-2 px-2 font-medium">Log İçeriği</th>
+                          <th className="text-left py-2 px-2 font-medium">Açıklama</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y">
+                        {analysisResults.map((result, index) => (
+                          <tr key={index} className={result.is_anomaly ? 'bg-red-50' : 'bg-green-50'}>
+                            <td className="py-3 px-2">
+                              {result.is_anomaly ? (
+                                <Badge className="bg-red-500 text-white">
+                                  ⚠️ Anomali
+                                </Badge>
+                              ) : (
+                                <Badge className="bg-green-500 text-white">
+                                  ✅ Normal
+                                </Badge>
+                              )}
+                            </td>
+                            <td className="py-3 px-2">
+                              <Badge className={
+                                result.severity === 'critical' ? 'bg-red-600 text-white' :
+                                result.severity === 'high' ? 'bg-orange-500 text-white' :
+                                result.severity === 'medium' ? 'bg-yellow-500 text-black' :
+                                result.severity === 'low' ? 'bg-blue-500 text-white' :
+                                'bg-gray-500 text-white'
+                              }>
+                                {result.severity?.toUpperCase() || 'INFO'}
+                              </Badge>
+                            </td>
+                            <td className="py-3 px-2">
+                              <div className="max-w-md truncate font-mono text-xs bg-gray-100 p-2 rounded">
+                                {result.log_content || 'N/A'}
+                              </div>
+                            </td>
+                            <td className="py-3 px-2">
+                              <div className="max-w-sm text-xs">
+                                {result.explanation || 'Açıklama mevcut değil'}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </>
+          )}
+        </div>
+        )}
       </div>
     </div>
   );

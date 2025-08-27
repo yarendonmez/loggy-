@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 import uvicorn
 import os
 import shutil
+import math
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
 from .database import get_db, create_tables, LogFile, LogEntry, AnalysisResult
@@ -189,7 +190,7 @@ async def get_uploaded_files(db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=f"Dosya listesi hatası: {str(e)}")
 
 @app.post("/api/analyze/{file_id}")
-async def analyze_log_file(file_id: int, db: Session = Depends(get_db)):
+async def analyze_log_file(file_id: int, analysis_type: str = "fast", db: Session = Depends(get_db)):
     """Log dosyasını analiz et"""
     try:
         # Dosyayı bul
@@ -215,8 +216,8 @@ async def analyze_log_file(file_id: int, db: Session = Depends(get_db)):
             if training_result["status"] != "success":
                 raise HTTPException(status_code=500, detail=f"Model eğitimi başarısız: {training_result.get('message', 'Bilinmeyen hata')}")
         
-        # Analiz yap
-        analysis_result = anomaly_detector.predict(log_lines)
+        # Analiz yap (analiz türünü geç)
+        analysis_result = anomaly_detector.predict(log_lines, analysis_type=analysis_type)
         
         if analysis_result["status"] != "success":
             raise HTTPException(status_code=500, detail=f"Analiz başarısız: {analysis_result.get('message', 'Bilinmeyen hata')}")
@@ -232,6 +233,7 @@ async def analyze_log_file(file_id: int, db: Session = Depends(get_db)):
             anomaly_count=analysis_result["anomaly_count"],
             critical_count=analysis_result["critical_count"],
             anomaly_rate=analysis_result["anomaly_rate"],
+            confidence_score=analysis_result.get("confidence_score", 0.0),
             results_json=json.dumps(analysis_result["results"], ensure_ascii=False)
         )
         db.add(analysis_record)
@@ -251,7 +253,8 @@ async def analyze_log_file(file_id: int, db: Session = Depends(get_db)):
                 "total_lines": analysis_result["total_lines"],
                 "anomaly_count": analysis_result["anomaly_count"],
                 "critical_count": analysis_result["critical_count"],
-                "anomaly_rate": round(analysis_result["anomaly_rate"] * 100, 2)
+                "anomaly_rate": round(analysis_result["anomaly_rate"] * 100, 2) if analysis_result.get("anomaly_rate") is not None and not math.isnan(analysis_result["anomaly_rate"]) else None,
+                "confidence_score": analysis_result.get("confidence_score", 0.0)
             }
         }
         
@@ -297,7 +300,8 @@ async def get_analysis_results(file_id: int, page: int = 1, page_size: int = 50,
                 "total_lines": analysis.total_lines,
                 "anomaly_count": analysis.anomaly_count,
                 "critical_count": analysis.critical_count,
-                "anomaly_rate": round(analysis.anomaly_rate * 100, 2)
+                "anomaly_rate": round(analysis.anomaly_rate * 100, 2) if analysis.anomaly_rate is not None and not math.isnan(analysis.anomaly_rate) else None,
+                "confidence_score": analysis.confidence_score if analysis.confidence_score is not None else 0.0
             },
             "results": paginated_results
         }

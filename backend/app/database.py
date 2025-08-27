@@ -4,8 +4,8 @@ from sqlalchemy.orm import sessionmaker
 import os
 from datetime import datetime
 
-# Database URL - Ana dizinden çalıştırılacak şekilde ayarlandı
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./data/loggy_new.db")
+# Database URL - Backend dizininden çalıştırılacak şekilde ayarlandı
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///../data/loggy_new.db")
 
 # Create engine
 engine = create_engine(
@@ -58,6 +58,7 @@ class AnalysisResult(Base):
     anomaly_count = Column(Integer, default=0)  # Anomali sayısı
     critical_count = Column(Integer, default=0)  # Kritik anomali sayısı
     anomaly_rate = Column(Float, default=0.0)  # Anomali oranı
+    confidence_score = Column(Float, default=0.0)  # Güven skoru
     processing_time = Column(Float)
     results_json = Column(Text)  # JSON formatında sonuçlar
 
